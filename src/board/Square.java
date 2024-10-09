@@ -1,5 +1,4 @@
 package board;
-import pieces.*;
 
 /**
  * Represents a single square on a board

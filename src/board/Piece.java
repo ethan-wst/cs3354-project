@@ -1,5 +1,4 @@
-package pieces;
-import board.*;
+package board;
 /**
  * Represents a chess piece
  */
