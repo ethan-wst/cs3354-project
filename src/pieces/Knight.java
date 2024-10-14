@@ -10,8 +10,7 @@ public class Knight extends Piece {
     @Override
     public boolean canMove(Board board, Square start, Square end) 
     { 
-        // we can't move the piece to a spot that has 
-        // a piece of the same colour 
+        // End square is occupied by same color
         if (end.getPiece().isWhite() == this.isWhite()) { 
             return false; 
         } 

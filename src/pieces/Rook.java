@@ -6,6 +6,16 @@ import board.*;
 
 public class Rook extends Piece {
 
+    private boolean moved = false;
+
+    public boolean getMoved () {
+        return this.moved;
+    }
+
+    public void setMoved (boolean moved) {
+        this.moved = moved;
+    }
+
     /**
      * {@inheritDoc}
      */

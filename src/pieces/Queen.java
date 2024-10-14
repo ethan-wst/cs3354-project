@@ -8,7 +8,11 @@ public class Queen extends Piece{
 
     @Override
     public boolean canMove(Board board, Square start, Square end) {
-        //need to implement movement logic
+        // End square is occupied by same color piece
+        
+        if (end.getPiece().isWhite() == this.isWhite()) return false;
+
+        //Implement movement logic bishop + rook
         return false;
     }
     

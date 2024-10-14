@@ -6,6 +6,8 @@ import board.*;
  */
 public class Pawn extends Piece {
 
+    public boolean hasMoved = false;
+
     /**
      * {@inheritdoc}
      */
@@ -22,7 +24,7 @@ public class Pawn extends Piece {
         
         if (start.getPiece().isWhite()) {
             // White pawn en passant (move 2 squares if at starting row)
-            if (start.getY() == 1 && start.getY() + 2 == end.getY()) {
+            if (!hasMoved) {
                 for (int i = start.getY(); i <= end.getY(); i ++) {
                     if (board.getSquare(start.getX(), i).getPiece() != null) return false; 
                 }
@@ -35,7 +37,7 @@ public class Pawn extends Piece {
 
         if (!start.getPiece().isWhite()) {
             // Black pawn en passant (move 2 squares if at starting row)
-            if (start.getY() == 6 && start.getY() - 2 == end.getY()) {
+            if (!hasMoved) {
                 for (int i = end.getY(); i >= start.getY(); i--) {
                     if (board.getSquare(start.getX(), i).getPiece() != null) return false; 
                 }
@@ -46,5 +48,7 @@ public class Pawn extends Piece {
             }
         }
         return false;
+
+        //Need to implement promotion
     }
 }
