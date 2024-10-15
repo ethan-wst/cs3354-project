@@ -2,17 +2,17 @@ package pieces;
 import board.*;
 
 public class Queen extends Piece{
-    public Queen (boolean white) {
-        super(white);
+    public Queen (int x, int y, boolean alive, boolean white) {
+        super(x, y, alive, white);
     }
 
     @Override
-    public boolean canMove(Board board, Square start, Square end) {
-        // End square is occupied by same color piece
+    public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
+        // // End square is occupied by same color piece
         
-        if (end.getPiece().isWhite() == this.isWhite()) return false;
+        // if (end.getPiece().isWhite() == this.isWhite()) return false;
 
-        //Implement movement logic bishop + rook
+        // //Implement movement logic bishop + rook
         return false;
     }
     

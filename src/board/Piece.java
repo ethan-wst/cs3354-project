@@ -4,23 +4,54 @@ package board;
  */
 
 public abstract class Piece {
-    private boolean killed = false;
-    private boolean white = false;
+    private int x;
+    private int y;
+
+    private boolean alive;
+    private boolean white;
 
     /**
      * Creates a piece with a specific color
      * @param white True if white and false if black
      */
-    public Piece(boolean white) {
-        this.setWhite(white);
+    public Piece(int x, int y, boolean alive, boolean white) {
+        super();
+        this.x = x;
+        this.y = y;
+        this.alive = alive;
+        this.white = white;
     }
     
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public boolean isAlive() {
+        return this.alive;
+    }
+ 
     /**
      * Gets piece's color
      * @return True if white and false if black
      */
     public boolean isWhite() {
         return this.white;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     /**
@@ -32,28 +63,12 @@ public abstract class Piece {
     }
 
     /**
-     * Gets a piece's status
-     * @return True if killed and false if alive
-     */
-    public boolean isKilled() {
-        return this.killed;
-    }
-
-    /**
-     * Sets a piece's status
-     * @param killed True if killed and false if alive
-     */
-    public void setKilled(boolean killed) {
-        this.killed = killed;
-    }
-
-    /**
      * Decides wether a move is valid or not
      * @param board The board we are playing on
      * @param start The starting point of the piece
      * @param end The end point of the piece
      * @return True if input is a possible move and false otherwise
      */
-    public abstract boolean canMove(Board board, Square start, Square end);
+    public abstract boolean validMove(Board board, int startX, int startY, int endX, int endY);
 }
 

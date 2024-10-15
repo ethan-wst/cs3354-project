@@ -8,9 +8,8 @@ public class King extends Piece {
 
     private boolean hasMoved = false; 
   
-    public King(boolean white) 
-    { 
-        super(white); 
+    public King(int x, int y, boolean alive, boolean white) {
+        super(x, y, alive, white);
     } 
   
     public boolean gethasMoved() 
@@ -24,13 +23,13 @@ public class King extends Piece {
     } 
   
     @Override
-    public boolean canMove(Board board, Square start, Square end) 
-    { 
-        if (end.getPiece().isWhite() == this.isWhite()) return false;
+    public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
+        // if (end.getPiece().isWhite() == this.isWhite()) return false;
   
-        int x = Math.abs(start.getX() - end.getX()); 
-        int y = Math.abs(start.getY() - end.getY()); 
-        return x + y == 1;
+        // int x = Math.abs(start.getX() - end.getX()); 
+        // int y = Math.abs(start.getY() - end.getY()); 
+        // return x + y == 1;
+        return true;
     } 
   
     //Need to implement castling

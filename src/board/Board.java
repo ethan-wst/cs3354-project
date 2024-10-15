@@ -1,78 +1,54 @@
 package board;
+import game.Move;
+import game.Player;
 import pieces.*;
 
 /**
  * Represents the board
  */
 public class Board {
-    Square[][] chessBoard = new Square[8][8];
+    private Square[][] chessBoard;
+    private boolean win;
 
     /**
      * Creates a new board object that is in its opening state
      */
     public Board() {
-        this.resetBoard();
+        win = false;
+        chessBoard = new Square[8][8];
     }
 
-    /**
-     * Gets the square object at the specified x, y coordinate
-     * @param x X coordinate of square
-     * @param y Y coordinate of square
-     * @return  The square object at the specified x, y coordinate
-     */
-    public Square getSquare(int x, int y) {
-        if (x < 0 || x > 7 || y < 0 || y > 7) {
-            String error = x + ", " + y + ": Index out of bounds"; 
-            throw new IndexOutOfBoundsException(error);
-        } 
-        return this.chessBoard[x][y];
+    public void initialize(Player p) {
+        for (int i = 0; i < p.getPieces().size(); i++) {
+            chessBoard[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()].occupySpot(p.getPieces().get(i));
+        }
     }
 
-    /**
-     * Sets board object to starting state
-     */
-    public final void resetBoard() {
-        this.chessBoard[0][0] = new Square(0, 0, new Rook(true)); 
-        this.chessBoard[1][0] = new Square(1, 0, new Knight(true));
-        this.chessBoard[2][0] = new Square(2, 0, new Bishop(true));
-        this.chessBoard[3][0] = new Square(3, 0, new Queen(true));
-        this.chessBoard[4][0] = new Square(4, 0, new King(true));
-        this.chessBoard[5][0] = new Square(5, 0, new Bishop(true));
-        this.chessBoard[6][0] = new Square(6, 0, new Knight(true));
-        this.chessBoard[7][0] = new Square(7, 0, new Rook(true));
+    public boolean executeMove(Player p) {
+        Move mv = p.getCurrentMove();
+        Piece piece = mv.getPiece();
 
-        this.chessBoard[0][1] = new Square(0, 1, new Pawn(true)); 
-        this.chessBoard[1][1] = new Square(1, 1, new Pawn(true));
-        this.chessBoard[2][1] = new Square(2, 1, new Pawn(true));
-        this.chessBoard[3][1] = new Square(3, 1, new Pawn(true));
-        this.chessBoard[4][1] = new Square(4, 1, new Pawn(true));
-        this.chessBoard[5][1] = new Square(5, 1, new Pawn(true));
-        this.chessBoard[6][1] = new Square(6, 1, new Pawn(true));
-        this.chessBoard[7][1] = new Square(7, 1, new Pawn(true));
+        //// check the move step is valid for piece
+        if(!piece.validMove(this, cmd.curX, cmd.curY, cmd.desX, cmd.desY)) {
+            // if not valid cmd remove the command and return false
+            p.removeCurrentCmd();
+            return false;
+        }
 
-        this.chessBoard[0][7] = new Square(0, 7, new Rook(false)); 
-        this.chessBoard[1][7] = new Square(1, 7, new Knight(false));
-        this.chessBoard[2][7] = new Square(2, 7, new Bishop(false));
-        this.chessBoard[3][7] = new Square(3, 7, new Queen(false));
-        this.chessBoard[4][7] = new Square(4, 7, new King(false));
-        this.chessBoard[5][7] = new Square(5, 7, new Bishop(false));
-        this.chessBoard[6][7] = new Square(6, 7, new Knight(false));
-        this.chessBoard[7][7] = new Square(7, 7, new Rook(false));
+        // check the two pieces side
+        if(spot[cmd.desX][cmd.desY] != null && spot[cmd.desX][cmd.desY].color == piece.color)
+            return false;
 
-        this.chessBoard[0][6] = new Square(0, 6, new Pawn(false)); 
-        this.chessBoard[1][6] = new Square(1, 6, new Pawn(false));
-        this.chessBoard[2][6] = new Square(2, 6, new Pawn(false));
-        this.chessBoard[3][6] = new Square(3, 6, new Pawn(false));
-        this.chessBoard[4][6] = new Square(4, 6, new Pawn(false));
-        this.chessBoard[5][6] = new Square(5, 6, new Pawn(false));
-        this.chessBoard[6][6] = new Square(6, 6, new Pawn(false));
-        this.chessBoard[7][6] = new Square(7, 6, new Pawn(false));
+        // check and change the state on spot
+        Piece taken = spot[cmd.desX][cmd.desY].occupySpot(piece);
+        if(taken != null &&taken.getClass().getName().equals("King"))
+            board.win = true;
+        spot[cmd.curX][cmd.curY].releaseSpot;
+        return true;
+    }
 
-        for (int i = 0; i < 8; i++) { 
-            for (int j = 2; j < 6; j++) { 
-                this.chessBoard[i][j] = new Square(i, j, null); 
-            } 
-        } 
+    public boolean getWin() {
+        return win;
     }
 
     /**

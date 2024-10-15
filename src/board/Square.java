@@ -14,57 +14,35 @@ public final class Square {
     * @param y Y coordinate of square
     * @param piece Piece that occupies the square (null if none)
     */
-   public Square(int x, int y, Piece piece) {
-    this.setPiece(piece);
-    this.setX(x);
-    this.setY(y);
+   public Square(int x, int y) {
+      this.x = x;
+      this.y = y;
+      piece = null;
    }
 
-   /**
-    * Gets the piece on the square
-    * @return A piece object if any and null otherwise
-    */
+   public Piece occupySpot(Piece piece) {
+      Piece origin = this.piece;
+      //if piece already here, delete it, ie set it to dead
+      if (this.piece != null) {
+         this.piece.setAlive(false);
+      }
+      //place piece here
+      this.piece = piece;
+      return origin;
+   }
+
+
+   public boolean isOccupied() {
+      return piece != null;
+   }
+
+   public Piece releaseSpot() {
+      Piece releasedPiece = this.piece;
+      this.piece = null;
+      return releasedPiece;
+   }
+
    public Piece getPiece() {
-    return this.piece;
-   }
-
-   /**
-    * Sets the piece of the square
-    * @param piece A piece object (null if none)
-    */
-   public void setPiece(Piece piece) {
-    this.piece = piece;
-   }
-
-   /**
-    * Gets the X coordinate of the square
-    * @return The integer X coordinate of the square
-    */
-   public int getX() {
-    return this.x;
-   }
-   
-   /**
-    * Sets the X coordinate of the square
-    * @param x The integer X coordinate of the square
-    */
-   public void setX(int x) {
-    this.x = x;
-   }
-
-   /**
-    * Gets the Y coordinate of the square
-    * @return The integer Y coordinate of the square
-    */
-   public int getY() {
-    return this.y;
-   }
-
-   /**
-    * Sets the Y coordinate of the square
-    * @param y The integer Y coordinate of the square
-    */
-   public void setY(int y) {
-    this.y = y;
+      return this.piece;
    }
 }
