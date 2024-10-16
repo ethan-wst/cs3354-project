@@ -1,78 +1,78 @@
 package board;
+import game.Move;
+import game.Player;
 import pieces.*;
 
 /**
  * Represents the board
  */
 public class Board {
-    Square[][] chessBoard = new Square[8][8];
+    private final Square[][] chessBoard;
+    private boolean win;
 
     /**
-     * Creates a new board object that is in its opening state
+     * Creates a new board object
      */
     public Board() {
-        this.resetBoard();
+        win = false;
+        chessBoard = new Square[8][8];
     }
 
     /**
-     * Gets the square object at the specified x, y coordinate
-     * @param x X coordinate of square
-     * @param y Y coordinate of square
-     * @return  The square object at the specified x, y coordinate
+     * Initializes white's and black's pieces onto the board object, as well as null squares
+     * @param p1 Player one
+     * @param p2 Player two
      */
-    public Square getSquare(int x, int y) {
-        if (x < 0 || x > 7 || y < 0 || y > 7) {
-            String error = x + ", " + y + ": Index out of bounds"; 
-            throw new IndexOutOfBoundsException(error);
-        } 
-        return this.chessBoard[x][y];
+
+    public void initialize(Player p1, Player p2) {
+        for (int i = 0; i < p1.getPieces().size(); i++) {
+            //White's pieces
+            chessBoard[p1.getPieces().get(i).getX()][p1.getPieces().get(i).getY()] = new Square(p1.getPieces().get(i));
+            //Black's pieces
+            chessBoard[p2.getPieces().get(i).getX()][p2.getPieces().get(i).getY()] = new Square(p2.getPieces().get(i));
+        }
+        //Empty Squares
+        for (int x = 0; x < 8; x++) {
+            for (int y = 2; y < 6; y++) {
+                chessBoard[x][y] = new Square(null);
+            }
+        }
     }
 
     /**
-     * Sets board object to starting state
+     * Determines if a move is valid, and if so carries out the move
+     * @param p Player making the move
+     * @return True if move carried out, False otherwise
      */
-    public final void resetBoard() {
-        this.chessBoard[0][0] = new Square(0, 0, new Rook(true)); 
-        this.chessBoard[1][0] = new Square(1, 0, new Knight(true));
-        this.chessBoard[2][0] = new Square(2, 0, new Bishop(true));
-        this.chessBoard[3][0] = new Square(3, 0, new Queen(true));
-        this.chessBoard[4][0] = new Square(4, 0, new King(true));
-        this.chessBoard[5][0] = new Square(5, 0, new Bishop(true));
-        this.chessBoard[6][0] = new Square(6, 0, new Knight(true));
-        this.chessBoard[7][0] = new Square(7, 0, new Rook(true));
+    public boolean executeMove(Player p) {
+        Move mv = p.getCurrentMove();
+        Piece piece = mv.getPiece();
 
-        this.chessBoard[0][1] = new Square(0, 1, new Pawn(true)); 
-        this.chessBoard[1][1] = new Square(1, 1, new Pawn(true));
-        this.chessBoard[2][1] = new Square(2, 1, new Pawn(true));
-        this.chessBoard[3][1] = new Square(3, 1, new Pawn(true));
-        this.chessBoard[4][1] = new Square(4, 1, new Pawn(true));
-        this.chessBoard[5][1] = new Square(5, 1, new Pawn(true));
-        this.chessBoard[6][1] = new Square(6, 1, new Pawn(true));
-        this.chessBoard[7][1] = new Square(7, 1, new Pawn(true));
+        //// check the move step is valid for piece
+        if(!piece.validMove(this, mv.startX, mv.startY, mv.endX, mv.endY)) {
+            // if not valid mv remove the move and return false
+            p.removeCurrentMove();
+            return false;
+        }
 
-        this.chessBoard[0][7] = new Square(0, 7, new Rook(false)); 
-        this.chessBoard[1][7] = new Square(1, 7, new Knight(false));
-        this.chessBoard[2][7] = new Square(2, 7, new Bishop(false));
-        this.chessBoard[3][7] = new Square(3, 7, new Queen(false));
-        this.chessBoard[4][7] = new Square(4, 7, new King(false));
-        this.chessBoard[5][7] = new Square(5, 7, new Bishop(false));
-        this.chessBoard[6][7] = new Square(6, 7, new Knight(false));
-        this.chessBoard[7][7] = new Square(7, 7, new Rook(false));
+        // check that target square is not occupied by friendly piece
+        if(chessBoard[mv.endX][mv.endY] != null && chessBoard[mv.endX][mv.endY].getPiece().isWhite() == piece.isWhite())
+            return false;
 
-        this.chessBoard[0][6] = new Square(0, 6, new Pawn(false)); 
-        this.chessBoard[1][6] = new Square(1, 6, new Pawn(false));
-        this.chessBoard[2][6] = new Square(2, 6, new Pawn(false));
-        this.chessBoard[3][6] = new Square(3, 6, new Pawn(false));
-        this.chessBoard[4][6] = new Square(4, 6, new Pawn(false));
-        this.chessBoard[5][6] = new Square(5, 6, new Pawn(false));
-        this.chessBoard[6][6] = new Square(6, 6, new Pawn(false));
-        this.chessBoard[7][6] = new Square(7, 6, new Pawn(false));
+        // check and change the state on spot
+        Piece taken = chessBoard[mv.endX][mv.endY].occupySquare(piece);
+        if(taken != null && taken.getClass().getName().equals("King"))
+            win = true;   
+        chessBoard[mv.startX][mv.startY].releaseSquare();
+        return true;
+    }
 
-        for (int i = 0; i < 8; i++) { 
-            for (int j = 2; j < 6; j++) { 
-                this.chessBoard[i][j] = new Square(i, j, null); 
-            } 
-        } 
+    /**
+     * Accsessor Method for win parameter
+     * @return win
+    */
+    public boolean getWin() {
+        return win;
     }
 
     /**
@@ -86,18 +86,18 @@ public class Board {
                 if (y == 8) System.out.print((char) (x+65) + "  ");
                 else {
                     
-                    if (this.getSquare(x, y).getPiece() == null) {
+                    if (chessBoard[x][y].getPiece() == null) {
                         if ((x+y)%2 != 0) System.out.print("   ");
                         else System.out.print("## ");
                     } else {
                         String colorPre = "w";
-                        if (!this.getSquare(x, y).getPiece().isWhite()) colorPre = "b";
-                        if (this.getSquare(x, y).getPiece() instanceof Rook) System.out.print(colorPre + "R ");
-                        else if (this.getSquare(x, y).getPiece() instanceof Knight) System.out.print(colorPre + "N ");
-                        else if (this.getSquare(x, y).getPiece() instanceof Bishop) System.out.print(colorPre + "B ");
-                        else if (this.getSquare(x, y).getPiece() instanceof Queen) System.out.print(colorPre + "Q ");
-                        else if (this.getSquare(x, y).getPiece() instanceof King) System.out.print(colorPre + "K ");
-                        else if (this.getSquare(x, y).getPiece() instanceof Pawn) System.out.print(colorPre + "p ");
+                        if (!chessBoard[x][y].getPiece().isWhite()) colorPre = "b";
+                        if (chessBoard[x][y].getPiece() instanceof Rook) System.out.print(colorPre + "R ");
+                        else if (chessBoard[x][y].getPiece() instanceof Knight) System.out.print(colorPre + "N ");
+                        else if (chessBoard[x][y].getPiece() instanceof Bishop) System.out.print(colorPre + "B ");
+                        else if (chessBoard[x][y].getPiece() instanceof Queen) System.out.print(colorPre + "Q ");
+                        else if (chessBoard[x][y].getPiece() instanceof King) System.out.print(colorPre + "K ");
+                        else if (chessBoard[x][y].getPiece() instanceof Pawn) System.out.print(colorPre + "p ");
                     }
                 }
             }

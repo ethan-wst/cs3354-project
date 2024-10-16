@@ -5,66 +5,54 @@ package board;
  */
 public final class Square {
    private Piece piece;
-   private int x;
-   private int y;
 
    /**
-    * Creates a square with a specific x,y coordinate and piece
-    * @param x X coordinate of square
-    * @param y Y coordinate of square
+    * Creates a square with a specific piece
     * @param piece Piece that occupies the square (null if none)
     */
-   public Square(int x, int y, Piece piece) {
-    this.setPiece(piece);
-    this.setX(x);
-    this.setY(y);
+   public Square(Piece piece) {
+      this.piece = piece;
    }
 
    /**
-    * Gets the piece on the square
-    * @return A piece object if any and null otherwise
+    * Used to move a piece to a square, and get old piece.
+    * @param piece Piece moved to square
+    * @return Piece that was on square, null if none
+    */
+   public Piece occupySquare(Piece piece) {
+      System.out.println("dsaf");
+      Piece origin = this.piece;
+      //if piece already here, delete it, ie set it to dead
+      if (this.piece != null) {
+         this.piece.setAlive(false);
+      }
+      //place piece here
+      this.piece = piece;
+      return origin;
+   }
+
+   /**
+    * @return True if square has a piece, false otherwise
+    */
+   public boolean isOccupied() {
+      return piece != null;
+   }
+
+   /**
+    * Sets square to null, used for moving pieces
+    * @return Piece that was on spot
+    */
+   public Piece releaseSquare() {
+      Piece releasedPiece = this.piece;
+      this.piece = null;
+      return releasedPiece;
+   }
+
+   /**
+    * 
+    * @return piece on square
     */
    public Piece getPiece() {
-    return this.piece;
-   }
-
-   /**
-    * Sets the piece of the square
-    * @param piece A piece object (null if none)
-    */
-   public void setPiece(Piece piece) {
-    this.piece = piece;
-   }
-
-   /**
-    * Gets the X coordinate of the square
-    * @return The integer X coordinate of the square
-    */
-   public int getX() {
-    return this.x;
-   }
-   
-   /**
-    * Sets the X coordinate of the square
-    * @param x The integer X coordinate of the square
-    */
-   public void setX(int x) {
-    this.x = x;
-   }
-
-   /**
-    * Gets the Y coordinate of the square
-    * @return The integer Y coordinate of the square
-    */
-   public int getY() {
-    return this.y;
-   }
-
-   /**
-    * Sets the Y coordinate of the square
-    * @param y The integer Y coordinate of the square
-    */
-   public void setY(int y) {
-    this.y = y;
+      return this.piece;
    }
 }
