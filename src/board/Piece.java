@@ -11,7 +11,10 @@ public abstract class Piece {
     private boolean white;
 
     /**
-     * Creates a piece with a specific color
+     * Creates a piece object
+     * @param x X cord of piece on the board
+     * @param y Y cord of piece on the board
+     * @param alive True if alive, false if not
      * @param white True if white and false if black
      */
     public Piece(int x, int y, boolean alive, boolean white) {
@@ -21,6 +24,7 @@ public abstract class Piece {
         this.alive = alive;
         this.white = white;
     }
+    
     
     public int getX() {
         return this.x;
@@ -65,8 +69,10 @@ public abstract class Piece {
     /**
      * Decides wether a move is valid or not
      * @param board The board we are playing on
-     * @param start The starting point of the piece
-     * @param end The end point of the piece
+     * @param startX The starting X point of the piece
+     * @param startY The starting Y point of the piece
+     * @param endX The end X point of the piece
+     * @param endY The end Y point of the piece
      * @return True if input is a possible move and false otherwise
      */
     public abstract boolean validMove(Board board, int startX, int startY, int endX, int endY);
