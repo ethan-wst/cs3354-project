@@ -29,7 +29,7 @@ public class King extends Piece {
         // int x = Math.abs(start.getX() - end.getX()); 
         // int y = Math.abs(start.getY() - end.getY()); 
         // return x + y == 1;
-        return true;
+        return false;
     } 
   
     //Need to implement castling

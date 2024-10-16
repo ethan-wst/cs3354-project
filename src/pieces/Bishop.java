@@ -29,6 +29,6 @@ public class Bishop extends Piece {
         //     y+=yOffset;
         // }
 
-        return true;
+        return false;
     } 
 } 

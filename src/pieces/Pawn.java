@@ -6,8 +6,6 @@ import board.*;
  */
 public class Pawn extends Piece {
 
-    public boolean hasMoved = false;
-
     /**
      * {@inheritdoc}
      */
@@ -20,35 +18,32 @@ public class Pawn extends Piece {
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // if (end.getPiece().isWhite() == this.isWhite()) return false;
-        
-        // if (start.getPiece().isWhite()) {
-        //     // White pawn en passant (move 2 squares if at starting row)
-        //     if (!hasMoved) {
-        //         for (int i = start.getY(); i <= end.getY(); i ++) {
-        //             if (board.getSquare(start.getX(), i).getPiece() != null) return false; 
-        //         }
-        //         return true;
-        //     //White pawn regular move
-        //     } else if (start.getY() + 1 == end.getY()) {
-        //         if (board.getSquare(start.getX(), start.getY()+1).getPiece() == null) return true;
-        //     }
-        // }
+        Piece piece = board.getSquare(startX, startY).getPiece();
+        int offset = -1;
+        if (piece.isWhite()) offset = 1;
 
-        // if (!start.getPiece().isWhite()) {
-        //     // Black pawn en passant (move 2 squares if at starting row)
-        //     if (!hasMoved) {
-        //         for (int i = end.getY(); i >= start.getY(); i--) {
-        //             if (board.getSquare(start.getX(), i).getPiece() != null) return false; 
-        //         }
-        //         return true;
-        //     // Black pawn regular move
-        //     } else if (start.getY() - 1 == end.getY()) {
-        //         if (board.getSquare(start.getX(), start.getY()-1).getPiece() == null) return true;
-        //     }
-        // }
+        //en passant (can move two squares if not previosly moved)
+        if (!piece.hasMoved() && endY-startY == 2*offset && endX-endX == 0) {
+                System.out.println("enpasant");
+            if (board.getSquare(endX, endY).getPiece() == null && board.getSquare(endX, endY-offset).getPiece() == null) {
+                System.out.println("enpasant confirm");
+                return true;
+            }
+        }
+        //taking a piece diagnoly from you
+        else if (endY-startY == offset && Math.abs(endX-startX) == 1 && board.getSquare(endX, endY).getPiece() != null) {
+            System.out.println("take");
+            return true;
+        }
+        //regular move
+        else if (endY-startY == offset && endX-endX == 0) {
+            System.out.println("reg");
+            if (board.getSquare(endX, endY).getPiece() == null) {
+                System.out.println("reg confirm");
+                return true;
+            }
+        } 
+        System.out.println("false");
         return false;
-
-        //Need to implement promotion
     }
 }
