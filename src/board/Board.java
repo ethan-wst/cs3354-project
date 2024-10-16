@@ -48,19 +48,49 @@ public class Board {
         Move mv = p.getCurrentMove();
         Piece piece = mv.getPiece();
 
+        if (mv.startX == -1 || mv.startY == -1 || mv.startX == -1 || mv.startY == -1) {
+            p.removeCurrentMove();
+            System.out.println("Cord out of bounce");
+            return false;
+        }
+
+        if (piece == null) {
+            p.removeCurrentMove();
+            System.out.println("No friendly pieces at cord");
+            return false;
+        }
+
+        if (!piece.isAlive()) {
+            p.removeCurrentMove();
+            System.out.println("No friendly pieces at cord");
+            return false;
+        }
+
         //// check the move step is valid for piece
         if(!piece.validMove(this, mv.startX, mv.startY, mv.endX, mv.endY)) {
             // if not valid mv remove the move and return false
             p.removeCurrentMove();
+            System.out.println("Invalid Move");
             return false;
+
         }
 
         // check that target square is not occupied by friendly piece
-        if(chessBoard[mv.endX][mv.endY] != null && chessBoard[mv.endX][mv.endY].getPiece().isWhite() == piece.isWhite())
-            return false;
+        if(chessBoard[mv.endX][mv.endY].getPiece() != null) {
+            if(chessBoard[mv.endX][mv.endY].getPiece().isWhite() == piece.isWhite()) {
+                p.removeCurrentMove();
+                System.out.println("Spot occupied by friendly");
+                return false;
+            }
+        }   
 
         // check and change the state on spot
         Piece taken = chessBoard[mv.endX][mv.endY].occupySquare(piece);
+        piece.setX(mv.endX);
+        piece.setY(mv.endY);
+        piece.setMoved(true);
+
+        System.out.println("Piece moved");
         if(taken != null && taken.getClass().getName().equals("King"))
             win = true;   
         chessBoard[mv.startX][mv.startY].releaseSquare();
@@ -75,12 +105,16 @@ public class Board {
         return win;
     }
 
+    public Square getSquare(int x, int y) {
+        return chessBoard[x][y];
+    }
+
     /**
      * Prints the current state of the board object in the terminal
      */
     public void display() {
         for (int y = 8; y >= 0; y--) {
-            if (y == 8) System.out.print("   ");
+            if (y == 8) System.out.print("\n   ");
             else System.out.print((y+1) + "  ");
             for (int x = 0; x < 8; x++) {
                 if (y == 8) System.out.print((char) (x+65) + "  ");
