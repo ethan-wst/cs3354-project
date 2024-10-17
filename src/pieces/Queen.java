@@ -8,12 +8,8 @@ public class Queen extends Piece{
 
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // // End square is occupied by same color piece
-        
-        // if (end.getPiece().isWhite() == this.isWhite()) return false;
-
-        // //Implement movement logic bishop + rook
-        return false;
+        return new Rook(this.getX(), this.getY(), true, this.isWhite()).validMove(board, startX, startY, endX, endY) 
+            || new Bishop(this.getX(), this.getY(), true, this.isWhite()).validMove(board, startX, startY, endX, endY);
     }
     
 }

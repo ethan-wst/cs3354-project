@@ -8,14 +8,6 @@ public class Knight extends Piece {
   
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // // End square is occupied by same color
-        // if (end.getPiece().isWhite() == this.isWhite()) { 
-        //     return false; 
-        // } 
-  
-        // int x = Math.abs(start.getX() - end.getX()); 
-        // int y = Math.abs(start.getY() - end.getY()); 
-        // return x * y == 2; 
-        return true;
+        return (Math.abs(startX - endX) * Math.abs(startY - endY)) == 2; 
     } 
 } 

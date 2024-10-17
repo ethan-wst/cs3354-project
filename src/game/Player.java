@@ -74,7 +74,7 @@ public class Player {
             pieces.add(new Queen(3, 0,true, true));
             pieces.add(new King(4, 0,true, true));
         } else {
-            for (int i = 0; i < 8; i++) pieces.add(new Pawn(i,6, true, true));
+            for (int i = 0; i < 8; i++) pieces.add(new Pawn(i,6, true, false));
             pieces.add(new Rook(0, 7,true, false));
             pieces.add(new Rook(7, 7,true, false));
             pieces.add(new Bishop(1, 7,true, false));

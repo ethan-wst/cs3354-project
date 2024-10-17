@@ -1,6 +1,7 @@
 package game;
 import board.*;
 import java.util.Scanner;
+import util.*;
 
 /**
  * Represent the chess game, includes main method
@@ -32,21 +33,35 @@ public class Game {
      * Used in main game loop, intakes player moves.
      * @param p Player whose turn it is.
      */
-    public void processTurn(Player p) {
-        Scanner scnr = new Scanner(System.in);
-        String color = "black";
-        if (p.white) color = "white";
+    public void processTurn(Player p, Scanner scnr) {
         
+        String userInput;
+        int[] cords;
+        Piece pieceToMove;
+        
+        String color = "Black";
+        if (p.white) color = "White";
         board.display();
-        scnr.nextLine();
-
-        // //System input
-        // do {
-        //     Move mv = new Move(/*input*/);
-        //     p.addMove(mv);
-        // } while(!board.executeMove(p));
-        scnr.close();
+        
+        do {
+            pieceToMove = null;
+            System.out.print("\n" + p.playerName + " (" + color + "): ");
+            userInput = scnr.nextLine();
+            
+            cords = new UserInput(userInput).getIntInput();
+            for (Piece piece : p.getPieces()) {
+                if (piece.getX() == cords[0] && piece.getY() == cords[1]) {
+                    pieceToMove = piece;
+                    break;
+                }
+            }
+                Move mv = new Move(pieceToMove, cords[0], cords[1], cords[2], cords[3]);
+                p.addMove(mv);
+        } while(!board.executeMove(p));
+        System.out.println("-------------------------");
+        //scnr.close();
     }
+    
 
     /**
      * Main game loop
@@ -54,16 +69,16 @@ public class Game {
     public void startGame() {
         p1 = new Player("Player 1", true);
         p2 = new Player("Player 2", false);
+        Scanner scnr = new Scanner(System.in);
         enterPlayer(p1, p2);
 
-        System.out.println("\n---" + p1.playerName + " vs. " + p2.playerName + "---/n");
         while (true) {
-            processTurn(p1);
+            processTurn(p1, scnr);
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
                 break;
             }
-            processTurn(p2);
+            processTurn(p2, scnr);
             if (this.board.getWin()) {
                 System.out.println("P2 win!");
                 break;

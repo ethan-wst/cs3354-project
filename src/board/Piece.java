@@ -9,6 +9,7 @@ public abstract class Piece {
 
     private boolean alive;
     private boolean white;
+    private boolean hasMoved;
 
     /**
      * Creates a piece object
@@ -23,9 +24,9 @@ public abstract class Piece {
         this.y = y;
         this.alive = alive;
         this.white = white;
+        this.hasMoved = false;
     }
-    
-    
+
     public int getX() {
         return this.x;
     }
@@ -44,6 +45,14 @@ public abstract class Piece {
      */
     public boolean isWhite() {
         return this.white;
+    }
+
+    public void setMoved(boolean moved) {
+        this.hasMoved = moved;
+    }
+
+    public boolean hasMoved() {
+        return this.hasMoved;
     }
 
     public void setX(int x) {
