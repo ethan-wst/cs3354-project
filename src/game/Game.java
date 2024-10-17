@@ -33,9 +33,8 @@ public class Game {
      * Used in main game loop, intakes player moves.
      * @param p Player whose turn it is.
      */
-    @SuppressWarnings("ConvertToTryWithResources")
-    public void processTurn(Player p) {
-        Scanner scnr = new Scanner(System.in);
+    public void processTurn(Player p, Scanner scnr) {
+        
         String userInput;
         int[] cords;
         Piece pieceToMove;
@@ -59,7 +58,8 @@ public class Game {
                 Move mv = new Move(pieceToMove, cords[0], cords[1], cords[2], cords[3]);
                 p.addMove(mv);
         } while(!board.executeMove(p));
-        scnr.close();
+        System.out.println("-------------------------");
+        //scnr.close();
     }
     
 
@@ -69,15 +69,16 @@ public class Game {
     public void startGame() {
         p1 = new Player("Player 1", true);
         p2 = new Player("Player 2", false);
+        Scanner scnr = new Scanner(System.in);
         enterPlayer(p1, p2);
 
         while (true) {
-            processTurn(p1);
+            processTurn(p1, scnr);
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
                 break;
             }
-            processTurn(p2);
+            processTurn(p2, scnr);
             if (this.board.getWin()) {
                 System.out.println("P2 win!");
                 break;

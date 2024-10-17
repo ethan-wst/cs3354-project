@@ -24,26 +24,20 @@ public class Pawn extends Piece {
 
         //en passant (can move two squares if not previosly moved)
         if (!piece.hasMoved() && endY-startY == 2*offset && endX-endX == 0) {
-                System.out.println("enpasant");
             if (board.getSquare(endX, endY).getPiece() == null && board.getSquare(endX, endY-offset).getPiece() == null) {
-                System.out.println("enpasant confirm");
                 return true;
             }
         }
         //taking a piece diagnoly from you
         else if (endY-startY == offset && Math.abs(endX-startX) == 1 && board.getSquare(endX, endY).getPiece() != null) {
-            System.out.println("take");
             return true;
         }
         //regular move
         else if (endY-startY == offset && endX-endX == 0) {
-            System.out.println("reg");
             if (board.getSquare(endX, endY).getPiece() == null) {
-                System.out.println("reg confirm");
                 return true;
             }
         } 
-        System.out.println("false");
         return false;
     }
 }

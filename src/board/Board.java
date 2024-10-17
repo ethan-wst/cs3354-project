@@ -50,19 +50,14 @@ public class Board {
 
         if (mv.startX == -1 || mv.startY == -1 || mv.startX == -1 || mv.startY == -1) {
             p.removeCurrentMove();
-            System.out.println("Cord out of bounce");
+            System.out.println("One or move inputed coordinates are invalid!");
             return false;
         }
 
         if (piece == null) {
             p.removeCurrentMove();
-            System.out.println("No friendly pieces at cord");
-            return false;
-        }
-
-        if (!piece.isAlive()) {
-            p.removeCurrentMove();
-            System.out.println("No friendly pieces at cord");
+            if (p.white) System.out.println("No white piece on inputed starting coordinate!");
+            else System.out.println("No black piece on inputed starting coordinate!");
             return false;
         }
 
@@ -70,7 +65,9 @@ public class Board {
         if(!piece.validMove(this, mv.startX, mv.startY, mv.endX, mv.endY)) {
             // if not valid mv remove the move and return false
             p.removeCurrentMove();
-            System.out.println("Invalid Move");
+            String pieceString = (piece.toString().split("[.]")[1]).split("@")[0].toLowerCase();
+            
+            System.out.println("Invalid move, that's not how a " + pieceString + " works");
             return false;
 
         }
@@ -79,7 +76,7 @@ public class Board {
         if(chessBoard[mv.endX][mv.endY].getPiece() != null) {
             if(chessBoard[mv.endX][mv.endY].getPiece().isWhite() == piece.isWhite()) {
                 p.removeCurrentMove();
-                System.out.println("Spot occupied by friendly");
+                System.out.println("Targer square is occupied by a friendly piece");
                 return false;
             }
         }   
@@ -90,9 +87,10 @@ public class Board {
         piece.setY(mv.endY);
         piece.setMoved(true);
 
-        System.out.println("Piece moved");
-        if(taken != null && taken.getClass().getName().equals("King"))
-            win = true;   
+        if(taken != null && taken.getClass().getName().equals("King")) {
+            win = true;
+            System.out.println("Winnner");
+        }
         chessBoard[mv.startX][mv.startY].releaseSquare();
         return true;
     }

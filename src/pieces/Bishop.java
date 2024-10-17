@@ -8,27 +8,22 @@ public class Bishop extends Piece {
   
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // // End square is occupied by same color piece
-        // if (end.getPiece().isWhite() == this.isWhite()) return false;
+        //Not a diagnol move b1 c2
+        if(startX == endX || startY == endY) return false;
+        //Not perfectly diagnol
+        if(Math.abs(startX-endX) != Math.abs(startY-endY)) return false;
 
-        // // Move not diagnol
-        // if (start.getX() == end.getX() || start.getY() == end.getY()) return false;
+        int xOffset = 1, yOffset = 1;
 
-        // // Move is not equally diagnol
-        // if(Math.abs(start.getX() - end.getX()) != Math.abs(start.getY() - end.getY())) return false;
+        if(startX > endX) xOffset = -1;
+        if(startY > endY) yOffset = -1;
 
-        // int xOffset = 1, yOffset = 1;
-
-        // if (start.getX() > end.getX()) xOffset = -1;
-        // if (start.getY() > end.getY()) yOffset = -1;
-
-
-        // int y = start.getY() + yOffset;
-        // for (int x = start.getX() + xOffset; x != end.getX(); x+=xOffset) {
-        //     if(board.getSquare(x,y).getPiece() != null) return false;
-        //     y+=yOffset;
-        // }
-
-        return false;
+        for(int x = startX + xOffset, y = startY + yOffset; x != endX; x +=xOffset) {
+            if(board.getSquare(x, y).getPiece() != null) {
+                return false;
+            }
+            y += yOffset;
+        }
+        return true;
     } 
 } 

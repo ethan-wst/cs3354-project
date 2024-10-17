@@ -1,5 +1,6 @@
 package util;
 
+
 public class UserInput {
     private final char[] parsedUserInput = new char[4];
     private final int[] intUserInput = new int[4];
@@ -12,15 +13,21 @@ public class UserInput {
     public final void parseInput(String userInput) {
         for (int i = 0, j = 0; i < userInput.length(); i++) {
             if (userInput.charAt(i) != ' ') {
-                parsedUserInput[j] = userInput.charAt(i);
-                j++;
+                try {
+                    parsedUserInput[j] = userInput.charAt(i);
+                    j++;
+                } catch (Exception e) {
+                    break;
+                }
+                
             }
         }
     }
 
     public final void processInput(char[] parsedInput) {
+        //Move is a castling move, implement handling later
         if ((int)parsedInput[0] == 48) {
-            //Move is a castling move, implement handling later
+            
         } 
         for (int i = 0; i < parsedInput.length; i++) {
             //if input is a lower case letter (a-h)
@@ -34,7 +41,9 @@ public class UserInput {
             //if input is int (1-8)
             else if ((int)parsedInput[i] < 57 && (int)parsedInput[i] > 48) {
                 intUserInput[i] = (int)parsedInput[i] - 49;
-            } else {
+            }
+            //anything else is invalid input 
+            else {
                 intUserInput[i] = -1;
                 break;
             }

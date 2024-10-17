@@ -26,8 +26,7 @@ public abstract class Piece {
         this.white = white;
         this.hasMoved = false;
     }
-    
-    
+
     public int getX() {
         return this.x;
     }

@@ -20,7 +20,6 @@ public final class Square {
     * @return Piece that was on square, null if none
     */
    public Piece occupySquare(Piece piece) {
-      System.out.println("occupy");
       Piece origin = this.piece;
       //if piece already here, delete it, ie set it to dead
       if (this.piece != null) {
