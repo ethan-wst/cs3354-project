@@ -7,6 +7,9 @@ import board.*;
  * board.
  */
 public class Knight extends Piece {
+    /**
+     * {@inheritDoc}
+     */
     public Knight(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
     }

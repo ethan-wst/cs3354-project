@@ -7,6 +7,9 @@ import board.*;
  * Bishop on a chess board.
  */
 public class Queen extends Piece {
+    /**
+     * {@inheritDoc}
+     */
     public Queen(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
     }

@@ -34,6 +34,7 @@ public final class Square {
    }
 
    /**
+    * Gets the status of the square
     * @return True if square has a piece, false otherwise
     */
    public boolean isOccupied() {
@@ -42,7 +43,6 @@ public final class Square {
 
    /**
     * Sets square to null, used for moving pieces
-    * 
     * @return Piece that was on spot
     */
    public Piece releaseSquare() {
@@ -52,7 +52,7 @@ public final class Square {
    }
 
    /**
-    * 
+    * Gets the piece that is currently on the square
     * @return piece on square
     */
    public Piece getPiece() {

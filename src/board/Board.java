@@ -10,17 +10,21 @@ import pieces.*;
  * for wins, and display the board state.
  */
 public class Board {
-    // The `private final Square[][] chessBoard;` declaration creates a 2D array
-    // named `chessBoard` to
-    // represent the chess board. Each element in the array corresponds to a square
-    // on the chess board
-    // and holds a `Square` object.
+    /** 
+    * The `private final Square[][] chessBoard;` declaration creates a 2D array
+    * named `chessBoard` to
+    * represent the chess board. Each element in the array corresponds to a square
+    * on the chess board
+    * and holds a `Square` object.
+    */
     private final Square[][] chessBoard;
     private boolean win;
 
-    // The `public Board()` constructor in the `Board` class is initializing a new
-    // instance of the
-    // `Board` object. Here's what it's doing:
+    /**
+    * The `public Board()` constructor in the `Board` class is initializing a new
+    * instance of the
+    * `Board` object. Here's what it's doing:
+    */
     public Board() {
         win = false;
         chessBoard = new Square[8][8];
@@ -82,7 +86,7 @@ public class Board {
             return false;
         }
 
-        //// check the move step is valid for piece
+        // check the move step is valid for piece
         if (!piece.validMove(this, mv.startX, mv.startY, mv.endX, mv.endY)) {
             // if not valid mv remove the move and return false
             p.removeCurrentMove();
@@ -143,9 +147,6 @@ public class Board {
         return chessBoard[x][y];
     }
 
-    /**
-     * Prints the current state of the board object in the terminal
-     */
     /**
      * The `display` method prints out a visual representation of a chess board with
      * pieces represented

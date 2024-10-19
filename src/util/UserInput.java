@@ -6,25 +6,26 @@ package util;
  * characters to integers based on specific rules.
  */
 public class UserInput {
-    // The lines `private final char[] parsedUserInput = new char[4];` and `private
-    // final int[]
-    // intUserInput = new int[4];` are declaring two private instance variables in
-    // the `UserInput`
-    // class in Java.
+    /**
+    * The lines `private final char[] parsedUserInput = new char[4];` and `private
+    * final int[]
+    * intUserInput = new int[4];` are declaring two private instance variables in
+    * the `UserInput` class in Java.
+    */ 
     private final char[] parsedUserInput = new char[4];
     private final int[] intUserInput = new int[4];
 
-    // The `UserInput` constructor in Java takes a `String` input from the user,
-    // then it calls the
-    // `parseInput` method to remove any spaces and store the characters in the
-    // `parsedUserInput`
-    // array. After that, it calls the `processInput` method to convert the
-    // characters in the
-    // `parsedUserInput` array to integers based on specific rules and store them in
-    // the `intUserInput`
-    // array. This way, the constructor processes the user input and prepares it for
-    // further use in the
-    // chess game.
+    /** The `UserInput` constructor in Java takes a `String` input from the user,
+    * then it calls the
+    * `parseInput` method to remove any spaces and store the characters in the
+    * `parsedUserInput`
+    * array. After that, it calls the `processInput` method to convert the
+    * characters in the
+    * `parsedUserInput` array to integers based on specific rules and store them in
+    * the `intUserInput`
+    * array. This way, the constructor processes the user input and prepares it for
+    * further use in the chess game.
+    */
     public UserInput(String userInput) {
         parseInput(userInput);
         processInput(parsedUserInput);
