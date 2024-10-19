@@ -11,6 +11,9 @@ public class King extends Piece {
 
     private boolean hasMoved = false;
 
+    /**
+     * {@inheritDoc}
+     */
     public King(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
     }

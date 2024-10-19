@@ -80,9 +80,6 @@ public class Game {
     }
 
     /**
-     * Main game loop
-     */
-    /**
      * The `startGame` function initializes two players, takes turns for each player
      * until a player
      * wins, and prints the winner's name.

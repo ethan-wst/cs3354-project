@@ -8,6 +8,9 @@ import board.*;
  * diagonal and free of obstructions on the board.
  */
 public class Bishop extends Piece {
+    /**
+     * {@inheritDoc}
+     */
     public Bishop(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
     }

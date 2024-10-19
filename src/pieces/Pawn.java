@@ -8,17 +8,12 @@ import board.*;
  * board.
  */
 public class Pawn extends Piece {
-
     /**
      * {@inheritdoc}
      */
     public Pawn(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
     }
-
-    /**
-     * {@inheritDoc}
-     */
 
     /**
      * The function `validMove` in Java checks if a move is valid for a pawn on a

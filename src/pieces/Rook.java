@@ -15,9 +15,6 @@ public class Rook extends Piece {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    /**
      * This Java function checks if a move on a board is valid for a piece that can
      * move horizontally
      * or vertically without jumping over other pieces.
