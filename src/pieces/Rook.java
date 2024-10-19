@@ -1,21 +1,12 @@
 package pieces;
+
 import board.*;
+
 /**
- * Represents a rook chess piece
+ * The Rook class represents a rook chess piece with methods to validate its
+ * movement on a board.
  */
-
 public class Rook extends Piece {
-
-    private boolean moved = false;
-
-    public boolean getMoved () {
-        return this.moved;
-    }
-
-    public void setMoved (boolean moved) {
-        this.moved = moved;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -26,32 +17,33 @@ public class Rook extends Piece {
     /**
      * {@inheritDoc}
      */
+    /**
+     * This Java function checks if a move on a board is valid for a piece that can
+     * move horizontally
+     * or vertically without jumping over other pieces.
+     */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // if (end.getPiece().isWhite() == this.isWhite()) return false;
-        // else if (start.getY() == start.getY()) {
-        //     if (start.getX() < end.getX()) {
-        //         for (int i = start.getX(); i < end.getX(); i++) {
-        //             if (board.getSquare(i, start.getY()).getPiece() != null) return false;
-        //         }
-        //     } else {
-        //         for (int i = end.getX(); i > start.getX(); i--) {
-        //             if (board.getSquare(i, start.getY()).getPiece() != null) return false;
-        //         }
-        //     }
-        //     return true;
-        // } else if (start.getX() == end.getX()){
-        //     if (start.getY() < end.getY()) {
-        //         for (int i = start.getY(); i < end.getY(); i++) {
-        //             if (board.getSquare(start.getX(), i).getPiece() != null) return false;
-        //         }
-        //     } else {
-        //         for (int i = end.getY(); i > start.getY(); i--) {
-        //             if (board.getSquare(start.getX(), i).getPiece() != null) return false;
-        //         }
-        //     }
-        //     return true;
-        // }
+        int offset = 1;
+        if (startX != endX && startY == endY) {
+            if (endX < startX)
+                offset = -1;
+            for (int x = startX + offset; x != endX; x += offset) {
+                if (board.getSquare(x, startY).getPiece() != null) {
+                    return false;
+                }
+            }
+            return true;
+        } else if (startX == endX && startY != endY) {
+            if (endY < startY)
+                offset = -1;
+            for (int y = startY + offset; y != endY; y += offset) {
+                if (board.getSquare(startX, y).getPiece() != null) {
+                    return false;
+                }
+            }
+            return true;
+        }
         return false;
     }
 }

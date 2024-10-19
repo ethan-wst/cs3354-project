@@ -1,34 +1,44 @@
 package pieces;
+
 import board.*;
 
-public class Bishop extends Piece { 
+/**
+ * The Bishop class represents a bishop chess piece with a validMove method that
+ * checks if the move is
+ * diagonal and free of obstructions on the board.
+ */
+public class Bishop extends Piece {
     public Bishop(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
-    } 
-  
+    }
+
+    /**
+     * The function checks if a move on a chess board is valid for a bishop piece by
+     * ensuring it is
+     * diagonal and not obstructed by other pieces.
+     */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // // End square is occupied by same color piece
-        // if (end.getPiece().isWhite() == this.isWhite()) return false;
+        // Not a diagnol move b1 c2
+        if (startX == endX || startY == endY)
+            return false;
+        // Not perfectly diagnol
+        if (Math.abs(startX - endX) != Math.abs(startY - endY))
+            return false;
 
-        // // Move not diagnol
-        // if (start.getX() == end.getX() || start.getY() == end.getY()) return false;
+        int xOffset = 1, yOffset = 1;
 
-        // // Move is not equally diagnol
-        // if(Math.abs(start.getX() - end.getX()) != Math.abs(start.getY() - end.getY())) return false;
+        if (startX > endX)
+            xOffset = -1;
+        if (startY > endY)
+            yOffset = -1;
 
-        // int xOffset = 1, yOffset = 1;
-
-        // if (start.getX() > end.getX()) xOffset = -1;
-        // if (start.getY() > end.getY()) yOffset = -1;
-
-
-        // int y = start.getY() + yOffset;
-        // for (int x = start.getX() + xOffset; x != end.getX(); x+=xOffset) {
-        //     if(board.getSquare(x,y).getPiece() != null) return false;
-        //     y+=yOffset;
-        // }
-
-        return false;
-    } 
-} 
+        for (int x = startX + xOffset, y = startY + yOffset; x != endX; x += xOffset) {
+            if (board.getSquare(x, y).getPiece() != null) {
+                return false;
+            }
+            y += yOffset;
+        }
+        return true;
+    }
+}

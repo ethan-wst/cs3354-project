@@ -1,4 +1,5 @@
 package game;
+
 import board.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,9 @@ import pieces.Queen;
 import pieces.Rook;
 
 /**
- * Represents a player (white or black)
+ * The Player class represents a player in a game, storing their name, piece
+ * set, move history, and
+ * initialization of pieces based on color.
  */
 public class Player {
     public boolean white;
@@ -20,7 +23,8 @@ public class Player {
 
     /**
      * Creates new Player object
-     * @param name Player Name
+     * 
+     * @param name  Player Name
      * @param white True if white, False if black
      */
     public Player(String name, boolean white) {
@@ -31,6 +35,7 @@ public class Player {
 
     /**
      * gets the players piece set
+     * 
      * @return pieces list
      */
     public List<Piece> getPieces() {
@@ -39,6 +44,7 @@ public class Player {
 
     /**
      * Adds move to move set
+     * 
      * @param mv Move to add to moveSet
      */
     public void addMove(Move mv) {
@@ -60,29 +66,33 @@ public class Player {
     }
 
     /**
-     * Creates players piece set
+     * The `initializePieces` function sets up the initial configuration of chess
+     * pieces on the board
+     * for either the white or black player.
      */
     public final void initializePieces() {
-        if(white) {
-            for (int i = 0; i < 8; i++) pieces.add(new Pawn(i,1, true, true));
-            pieces.add(new Rook(0, 0,true, true));
-            pieces.add(new Rook(7, 0,true, true));
-            pieces.add(new Bishop(1, 0,true, true));
-            pieces.add(new Bishop(6, 0,true, true));
-            pieces.add(new Knight(2, 0,true, true));
-            pieces.add(new Knight(5, 0,true, true));
-            pieces.add(new Queen(3, 0,true, true));
-            pieces.add(new King(4, 0,true, true));
+        if (white) {
+            for (int i = 0; i < 8; i++)
+                pieces.add(new Pawn(i, 1, true, true));
+            pieces.add(new Rook(0, 0, true, true));
+            pieces.add(new Rook(7, 0, true, true));
+            pieces.add(new Bishop(1, 0, true, true));
+            pieces.add(new Bishop(6, 0, true, true));
+            pieces.add(new Knight(2, 0, true, true));
+            pieces.add(new Knight(5, 0, true, true));
+            pieces.add(new Queen(3, 0, true, true));
+            pieces.add(new King(4, 0, true, true));
         } else {
-            for (int i = 0; i < 8; i++) pieces.add(new Pawn(i,6, true, false));
-            pieces.add(new Rook(0, 7,true, false));
-            pieces.add(new Rook(7, 7,true, false));
-            pieces.add(new Bishop(1, 7,true, false));
-            pieces.add(new Bishop(6, 7,true, false));
-            pieces.add(new Knight(2, 7,true, false));
-            pieces.add(new Knight(5, 7,true, false));
-            pieces.add(new Queen(3, 7,true, false));
-            pieces.add(new King(4, 7,true, false));
+            for (int i = 0; i < 8; i++)
+                pieces.add(new Pawn(i, 6, true, false));
+            pieces.add(new Rook(0, 7, true, false));
+            pieces.add(new Rook(7, 7, true, false));
+            pieces.add(new Bishop(1, 7, true, false));
+            pieces.add(new Bishop(6, 7, true, false));
+            pieces.add(new Knight(2, 7, true, false));
+            pieces.add(new Knight(5, 7, true, false));
+            pieces.add(new Queen(3, 7, true, false));
+            pieces.add(new King(4, 7, true, false));
         }
     }
 }

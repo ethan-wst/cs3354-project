@@ -1,21 +1,23 @@
 package pieces;
+
 import board.*;
 
-public class Knight extends Piece { 
+/**
+ * The Knight class represents a chess piece that can move in an L-shape on the
+ * board.
+ */
+public class Knight extends Piece {
     public Knight(int x, int y, boolean alive, boolean white) {
         super(x, y, alive, white);
-    } 
-  
+    }
+
+    /**
+     * The function determines if a move on a board is valid by checking if the
+     * absolute difference
+     * between start and end coordinates is equal to 2.
+     */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
-        // // End square is occupied by same color
-        // if (end.getPiece().isWhite() == this.isWhite()) { 
-        //     return false; 
-        // } 
-  
-        // int x = Math.abs(start.getX() - end.getX()); 
-        // int y = Math.abs(start.getY() - end.getY()); 
-        // return x * y == 2; 
-        return false;
-    } 
-} 
+        return (Math.abs(startX - endX) * Math.abs(startY - endY)) == 2;
+    }
+}
