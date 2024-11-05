@@ -1,4 +1,6 @@
-package board;
+package pieces;
+
+import board.Board;
 
 /**
  * The `Piece` class represents a chess piece with properties such as position,
@@ -144,7 +146,7 @@ public abstract class Piece {
      */
     public final void setWhite(boolean white) {
         this.white = white;
-    }
+    } 
 
     /**
      * This abstract method checks if a move on the board from a starting position

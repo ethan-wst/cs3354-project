@@ -1,14 +1,8 @@
 package game;
 
-import board.*;
 import java.util.ArrayList;
 import java.util.List;
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
+import pieces.*;
 
 /**
  * The Player class represents a player in a game, storing their name, piece

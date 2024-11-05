@@ -2,6 +2,7 @@ package game;
 
 import board.*;
 import java.util.Scanner;
+import pieces.Piece;
 import util.*;
 
 /**
@@ -50,7 +51,7 @@ public class Game {
      *             used for obtaining input of primitive types like int, double,
      *             etc., and
      */
-    public void processTurn(Player p, Scanner scnr) {
+    public void processTurn(Player p, Scanner scnr, boolean isChecked) {
         String userInput;
         int[] cords;
         Piece pieceToMove;
@@ -75,8 +76,27 @@ public class Game {
             Move mv = new Move(pieceToMove, cords[0], cords[1], cords[2], cords[3]);
             p.addMove(mv);
         } while (!board.executeMove(p));
+        
+
         System.out.println("-------------------------");
-        // scnr.close();
+    }
+
+
+
+    public boolean CheckMate(Player p1, Player p2) {
+        for(Piece p1Piece : p1.getPieces()) {
+            if (p1Piece.getClass().getName().equals("pieces.King")) {
+                for(Piece p2Piece : p2.getPieces()) {
+                    for(int x = 0, x < 8, x++) {
+                        for (int y =)
+                    }
+                    if (p2Piece.validMove(board, p2Piece.getX(), p2Piece.getY(), p1Piece.getX(), p1Piece.getY())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -89,14 +109,24 @@ public class Game {
         p2 = new Player("Player 2", false);
         Scanner scnr = new Scanner(System.in);
         enterPlayer(p1, p2);
+        boolean p1Check = false;
+        boolean p2Check = false;
 
         while (true) {
-            processTurn(p1, scnr);
+            processTurn(p1, scnr, p1Check);
+            if(Check(p2, p1)) {
+                System.out.println ("P2 is in check");
+                p2Check = true;
+            }
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
                 break;
             }
-            processTurn(p2, scnr);
+            processTurn(p2, scnr, p2Check);
+            if(Check(p1, p2)) {
+                System.out.println ("P1 is in check");
+                p1Check = true;
+            }
             if (this.board.getWin()) {
                 System.out.println("P2 win!");
                 break;

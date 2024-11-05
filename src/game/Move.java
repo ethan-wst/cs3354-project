@@ -1,6 +1,6 @@
 package game;
 
-import board.*;
+import pieces.Piece;
 
 /**
  * The Move class represents a move made by a piece on a game board in Java.

@@ -1,5 +1,7 @@
 package board;
 
+import pieces.Piece;
+
 /**
  * This class represents a square shape.
  */

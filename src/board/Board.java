@@ -1,7 +1,6 @@
 package board;
 
-import game.Move;
-import game.Player;
+import game.*;
 import pieces.*;
 
 /**
@@ -73,7 +72,7 @@ public class Board {
 
         if (mv.startX == -1 || mv.startY == -1 || mv.startX == -1 || mv.startY == -1) {
             p.removeCurrentMove();
-            System.out.println("One or move inputed coordinates are invalid!");
+            System.out.println("One or more inputed coordinates are invalid!");
             return false;
         }
 
@@ -111,12 +110,37 @@ public class Board {
         piece.setX(mv.endX);
         piece.setY(mv.endY);
         piece.setMoved(true);
-
-        if (taken != null && taken.getClass().getName().equals("King")) {
+        
+        if (taken != null && taken.getClass().getName().equals("pieces.King")) {
             win = true;
-            System.out.println("Winnner");
         }
         chessBoard[mv.startX][mv.startY].releaseSquare();
+
+        return true;
+    }
+
+    public boolean isCheck(Player p1, Player p2) {
+        for(Piece p1Piece : p1.getPieces()) {
+            if (p1Piece.getClass().getName().equals("pieces.King")) {
+                for(Piece p2Piece : p2.getPieces()) {
+                    if (p2Piece.validMove(this, p2Piece.getX(), p2Piece.getY(), p1Piece.getX(), p1Piece.getY())) {
+                        isCheckmate(p1, p2, p1Piece, p2Piece);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isCheckmate(Player p1, Player p2, Piece King, Piece threat) {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; x++) {
+                if (threat.validMove(this, threat.getX(), threat.getY(), x, y) && threat.validMove(this, x, y,  King.getX(), King.getY())) {
+                    
+                }
+            }
+        }
         return true;
     }
 
