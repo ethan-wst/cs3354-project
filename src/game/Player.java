@@ -28,6 +28,14 @@ public class Player {
         initializePieces();
     }
 
+    public void setWhite(boolean white) {
+        this.white = white;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
     /**
      * gets the players piece set
      * 
@@ -37,13 +45,12 @@ public class Player {
         return pieces;
     }
 
-    /**
-     * Adds move to move set
-     * 
-     * @param mv Move to add to moveSet
-     */
-    public void addMove(Move mv) {
-        moveSet.add(mv);
+    public boolean isWhite() {
+        return white;
+    }
+
+    public boolean isChecked() {
+        return checked;
     }
 
     /**
@@ -51,6 +58,15 @@ public class Player {
      */
     public Move getCurrentMove() {
         return moveSet.getLast();
+    }
+
+    /**
+     * Adds move to move set
+     * 
+     * @param mv Move to add to moveSet
+     */
+    public void addMove(Move mv) {
+        moveSet.add(mv);
     }
 
     /**

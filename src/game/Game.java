@@ -34,6 +34,7 @@ public class Game {
         this.p1 = p1;
         this.p2 = p2;
         board.initialize(p1, p2);
+        gui = new ChessBoardGUI(board);
     }
 
     /**
@@ -61,7 +62,6 @@ public class Game {
         String color = "Black";
         if (p.white)
             color = "White";
-        board.display();
         gui.updateGUI(board);
 
         do {
@@ -94,7 +94,6 @@ public class Game {
         p2 = new Player("Player 2", false);
         Scanner scnr = new Scanner(System.in);
         enterPlayer(p1, p2);
-        gui = new ChessBoardGUI(board);
 
         while (true) {
             processTurn(p1, scnr);
@@ -111,7 +110,7 @@ public class Game {
         }
     }
 
-    public Board getBoard() {
-        return board;
+    public Player getOpponent(Player p) {
+        return (p == p1) ? p2 : p1;
     }
 }

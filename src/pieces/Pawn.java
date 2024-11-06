@@ -40,7 +40,7 @@ public class Pawn extends Piece {
             return true;
         }
         // regular move
-        else if (endY - startY == offset && endX - endX == 0) {
+        else if (endY - startY == offset && endX - startX == 0) {
             if (board.getSquare(endX, endY).getPiece() == null) {
                 return true;
             }

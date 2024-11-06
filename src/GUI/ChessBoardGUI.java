@@ -30,7 +30,6 @@ public class ChessBoardGUI {
 
         changeColorItem.addActionListener((ActionEvent e) -> {
             optionsPanel.chooseSquareColors();
-            System.out.println("hi");
             updateGUI(board);
         });
 
@@ -45,7 +44,6 @@ public class ChessBoardGUI {
                 JButton squareButton = new JButton();
                 squareButton.setFont(new Font("SansSerif", Font.PLAIN, 32)); // Set font for pieces
 
-                System.out.println(x+ " " + y);
                 // Display piece if the square is occupied
                 Piece piece = board.getSquare(x, y).getPiece();
                 if (piece != null) {
