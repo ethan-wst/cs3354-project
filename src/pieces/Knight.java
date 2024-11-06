@@ -23,4 +23,9 @@ public class Knight extends Piece {
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
         return (Math.abs(startX - endX) * Math.abs(startY - endY)) == 2;
     }
+
+    @Override
+    public String getSymbol() {
+        return "\u2658";
+    }
 }

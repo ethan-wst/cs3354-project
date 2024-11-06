@@ -55,4 +55,9 @@ public class King extends Piece {
     }
 
     // Need to implement castling
+
+    @Override
+    public String getSymbol() {
+        return "\u2654";
+    }
 }

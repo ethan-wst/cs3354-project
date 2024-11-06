@@ -26,4 +26,8 @@ public class Queen extends Piece {
                         endY);
     }
 
+    @Override
+    public String getSymbol() {
+        return "\u2655";
+    }
 }

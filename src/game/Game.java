@@ -1,5 +1,6 @@
 package game;
 
+import GUI.*;
 import board.*;
 import java.util.Scanner;
 import pieces.Piece;
@@ -12,6 +13,7 @@ import util.*;
  */
 public class Game {
     private final Board board;
+    private ChessBoardGUI gui;
     private Player p1;
     private Player p2;
 
@@ -51,7 +53,7 @@ public class Game {
      *             used for obtaining input of primitive types like int, double,
      *             etc., and
      */
-    public void processTurn(Player p, Scanner scnr, boolean isChecked) {
+    public void processTurn(Player p, Scanner scnr) {
         String userInput;
         int[] cords;
         Piece pieceToMove;
@@ -60,6 +62,7 @@ public class Game {
         if (p.white)
             color = "White";
         board.display();
+        gui.updateGUI(board);
 
         do {
             pieceToMove = null;
@@ -81,24 +84,6 @@ public class Game {
         System.out.println("-------------------------");
     }
 
-
-
-    public boolean CheckMate(Player p1, Player p2) {
-        for(Piece p1Piece : p1.getPieces()) {
-            if (p1Piece.getClass().getName().equals("pieces.King")) {
-                for(Piece p2Piece : p2.getPieces()) {
-                    for(int x = 0, x < 8, x++) {
-                        for (int y =)
-                    }
-                    if (p2Piece.validMove(board, p2Piece.getX(), p2Piece.getY(), p1Piece.getX(), p1Piece.getY())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     /**
      * The `startGame` function initializes two players, takes turns for each player
      * until a player
@@ -109,28 +94,24 @@ public class Game {
         p2 = new Player("Player 2", false);
         Scanner scnr = new Scanner(System.in);
         enterPlayer(p1, p2);
-        boolean p1Check = false;
-        boolean p2Check = false;
+        gui = new ChessBoardGUI(board);
 
         while (true) {
-            processTurn(p1, scnr, p1Check);
-            if(Check(p2, p1)) {
-                System.out.println ("P2 is in check");
-                p2Check = true;
-            }
+            processTurn(p1, scnr);
+            
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
                 break;
             }
-            processTurn(p2, scnr, p2Check);
-            if(Check(p1, p2)) {
-                System.out.println ("P1 is in check");
-                p1Check = true;
-            }
+            processTurn(p2, scnr);
             if (this.board.getWin()) {
                 System.out.println("P2 win!");
                 break;
             }
         }
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

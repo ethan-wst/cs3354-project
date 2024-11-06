@@ -44,4 +44,9 @@ public class Bishop extends Piece {
         }
         return true;
     }
+
+    @Override
+    public String getSymbol() {
+        return "\u265D";
+    }
 }

@@ -11,6 +11,7 @@ import pieces.*;
  */
 public class Player {
     public boolean white;
+    public boolean checked;
     public String playerName;
     private final List<Move> moveSet = new ArrayList<>();
     private final List<Piece> pieces = new ArrayList<>();
@@ -70,10 +71,10 @@ public class Player {
                 pieces.add(new Pawn(i, 1, true, true));
             pieces.add(new Rook(0, 0, true, true));
             pieces.add(new Rook(7, 0, true, true));
-            pieces.add(new Bishop(1, 0, true, true));
-            pieces.add(new Bishop(6, 0, true, true));
-            pieces.add(new Knight(2, 0, true, true));
-            pieces.add(new Knight(5, 0, true, true));
+            pieces.add(new Bishop(2, 0, true, true));
+            pieces.add(new Bishop(5, 0, true, true));
+            pieces.add(new Knight(1, 0, true, true));
+            pieces.add(new Knight(6, 0, true, true));
             pieces.add(new Queen(3, 0, true, true));
             pieces.add(new King(4, 0, true, true));
         } else {
@@ -81,10 +82,10 @@ public class Player {
                 pieces.add(new Pawn(i, 6, true, false));
             pieces.add(new Rook(0, 7, true, false));
             pieces.add(new Rook(7, 7, true, false));
-            pieces.add(new Bishop(1, 7, true, false));
-            pieces.add(new Bishop(6, 7, true, false));
-            pieces.add(new Knight(2, 7, true, false));
-            pieces.add(new Knight(5, 7, true, false));
+            pieces.add(new Bishop(2, 7, true, false));
+            pieces.add(new Bishop(5, 7, true, false));
+            pieces.add(new Knight(1, 7, true, false));
+            pieces.add(new Knight(6, 7, true, false));
             pieces.add(new Queen(3, 7, true, false));
             pieces.add(new King(4, 7, true, false));
         }

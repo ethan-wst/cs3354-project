@@ -178,4 +178,7 @@ public abstract class Piece {
      *         valid or not.
      */
     public abstract boolean validMove(Board board, int startX, int startY, int endX, int endY);
+
+
+    public abstract String getSymbol();
 }

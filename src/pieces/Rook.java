@@ -43,4 +43,9 @@ public class Rook extends Piece {
         }
         return false;
     }
+
+    @Override
+    public String getSymbol() {
+        return "\u265C";
+    }
 }
