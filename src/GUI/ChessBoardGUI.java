@@ -10,6 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+/**
+ * The `ChessBoardGUI` class represents a graphical user interface for a chess board with interactive
+ * functionalities for moving pieces.
+ */
 public class ChessBoardGUI {
     int BOARD_SIZE = 8;
     private JPanel boardPanel;
@@ -21,21 +25,25 @@ public class ChessBoardGUI {
     private int dragStartX, dragStartY;
     private JLabel dragLabel = new JLabel();
 
+    
     public ChessBoardGUI(Board board) {
         optionsPanel = new OptionsPanel();
         initializeGUI(board);
         initializeClickListeners(board);
     }
 
+    // Create and display the GUI
     private void initializeGUI(Board board) {
         JFrame frame = new JFrame("Chess Board");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
 
+        //Set up the menu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu optionsMenu = new JMenu("Options");
         JMenuItem changeColorItem = new JMenuItem("Change Square Colors");
 
+        // Add action listener for changing square colors
         changeColorItem.addActionListener((ActionEvent e) -> {
             optionsPanel.chooseSquareColors();
             updateGUI(board);
@@ -45,13 +53,16 @@ public class ChessBoardGUI {
         menuBar.add(optionsMenu);
         frame.setJMenuBar(menuBar);
 
+        // Create the board panel with a grid layout
         boardPanel = new JPanel(new GridLayout(BOARD_SIZE, BOARD_SIZE));
 
+        // Initialize the board squares
         for (int y = BOARD_SIZE - 1; y >= 0; y--) {
             for (int x = 0; x < BOARD_SIZE; x++) {
                 JButton squareButton = new JButton();
                 squareButton.setFont(new Font("SansSerif", Font.PLAIN, 32));
 
+                // Display piece if the square is occupied
                 Piece piece = board.getSquare(x, y).getPiece();
                 if (piece != null) {
                     squareButton.setText(piece.getSymbol());
@@ -61,6 +72,7 @@ public class ChessBoardGUI {
                 int finalX = x;
                 int finalY = y;
 
+                // mouse listeners for dragging and dropping pieces
                 squareButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
@@ -80,12 +92,14 @@ public class ChessBoardGUI {
                     }
                 });
 
+                // Set the button background for the chessboard pattern
                 squareButtons[x][y] = squareButton;
                 squareButton.setPreferredSize(new Dimension(75, 75));
                 boardPanel.add(squareButton);
             }
         }
 
+        // Set up the drag label used to show the dragged piece
         dragLabel.setVisible(false);
         dragLabel.setFont(new Font("SansSerif", Font.PLAIN, 32));
         frame.getLayeredPane().add(dragLabel, JLayeredPane.DRAG_LAYER);
@@ -94,6 +108,9 @@ public class ChessBoardGUI {
         frame.setVisible(true);
     }
 
+    /**
+     * Initializes click listeners for each square on the board.
+     */
     private void initializeClickListeners(Board board) {
         for (int y = 0; y < BOARD_SIZE; y++) {
             for (int x = 0; x < BOARD_SIZE; x++) {
@@ -110,20 +127,28 @@ public class ChessBoardGUI {
         }
     }
 
+    /**
+     * Handles clicks on a square to select or move a piece.
+     */
     private void handleSquareClick(Board board, int x, int y) {
         if (selectedPiece == null) {
+            // Select the piece if none is currently selected
             selectedPiece = board.getSquare(x, y).getPiece();
             if (selectedPiece != null) {
                 initialX = x;
                 initialY = y;
             }
         } else {
+            // Move the selected piece to the clicked square
             board.movePiece(initialX, initialY, x, y);
             selectedPiece = null;
             updateGUI(board);
         }
     }
 
+    /**
+     * Handles the mouse press event to start dragging a piece.
+     */
     private void handleMousePressed(Board board, int x, int y, MouseEvent e) {
         draggedPiece = board.getSquare(x, y).getPiece();
         if (draggedPiece != null) {
@@ -137,12 +162,18 @@ public class ChessBoardGUI {
         }
     }
 
+    /**
+     * Handles the mouse drag event to update the position of the drag label.
+     */
     private void handleMouseDragged(MouseEvent e) {
         if (draggedPiece != null) {
             dragLabel.setLocation(e.getXOnScreen() - dragLabel.getWidth() / 2, e.getYOnScreen() - dragLabel.getHeight() / 2);
         }
     }
 
+    /**
+     * Handles the mouse release event to drop a piece on a new square.
+     */
     private void handleMouseReleased(Board board, int x, int y, MouseEvent e) {
         if (draggedPiece != null) {
             Point boardPosition = boardPanel.getLocationOnScreen();
@@ -164,6 +195,7 @@ public class ChessBoardGUI {
             for (int x = 0; x < BOARD_SIZE; x++) {
                 JButton squareButton = squareButtons[x][y];
 
+                // Display piece if the square is occupied
                 Piece piece = board.getSquare(x, y).getPiece();
                 if (piece != null) {
                     squareButton.setText(piece.getSymbol());
