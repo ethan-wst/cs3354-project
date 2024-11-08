@@ -255,4 +255,13 @@ public class Board {
         // Reset the piece's position
         movingPiece.setPosition(mv.getStartX(), mv.getStartY());
     }
+
+    public void movePiece(int startX, int startY, int endX, int endY) {
+        Piece piece = chessBoard[startX][startY].getPiece(); // Get the piece to move
+        if (piece != null) {
+            piece.setPosition(endX, endY); // Update piece's position
+            chessBoard[startX][startY].releaseSquare(); // Clear the starting square
+            chessBoard[endX][endY].occupySquare(piece); // Occupy the destination square with the piece
+        }
+    }
 }
