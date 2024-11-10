@@ -1,13 +1,13 @@
 package game;
 
-import board.*;
+import pieces.Piece;
 
 /**
  * The Move class represents a move made by a piece on a game board in Java.
  */
 public class Move {
     private final Piece piece;
-    public int startX, startY, endX, endY;
+    private final int startX, startY, endX, endY;
 
     /**
      * Creates a new move object
@@ -33,4 +33,22 @@ public class Move {
     public Piece getPiece() {
         return this.piece;
     }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getEndX() {
+        return endX;
+    }
+
+    public int getEndY() {
+        return endY;
+    }
+
+
 }

@@ -1,7 +1,9 @@
 package game;
 
+import GUI.*;
 import board.*;
 import java.util.Scanner;
+import pieces.Piece;
 import util.*;
 
 /**
@@ -11,6 +13,7 @@ import util.*;
  */
 public class Game {
     private final Board board;
+    private ChessBoardGUI gui;
     private Player p1;
     private Player p2;
 
@@ -31,6 +34,7 @@ public class Game {
         this.p1 = p1;
         this.p2 = p2;
         board.initialize(p1, p2);
+        gui = new ChessBoardGUI(board);
     }
 
     /**
@@ -58,7 +62,7 @@ public class Game {
         String color = "Black";
         if (p.white)
             color = "White";
-        board.display();
+        gui.updateGUI(board);
 
         do {
             pieceToMove = null;
@@ -75,8 +79,9 @@ public class Game {
             Move mv = new Move(pieceToMove, cords[0], cords[1], cords[2], cords[3]);
             p.addMove(mv);
         } while (!board.executeMove(p));
+        
+
         System.out.println("-------------------------");
-        // scnr.close();
     }
 
     /**
@@ -92,6 +97,7 @@ public class Game {
 
         while (true) {
             processTurn(p1, scnr);
+            
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
                 break;
@@ -102,5 +108,9 @@ public class Game {
                 break;
             }
         }
+    }
+
+    public Player getOpponent(Player p) {
+        return (p == p1) ? p2 : p1;
     }
 }

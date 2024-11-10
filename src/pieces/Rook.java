@@ -43,4 +43,12 @@ public class Rook extends Piece {
         }
         return false;
     }
+
+    /**
+     * This function returns the symbol of the rook piece.
+     */
+    @Override
+    public String getSymbol() {
+        return "\u265C";
+    }
 }

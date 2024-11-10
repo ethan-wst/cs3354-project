@@ -1,14 +1,8 @@
 package game;
 
-import board.*;
 import java.util.ArrayList;
 import java.util.List;
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
+import pieces.*;
 
 /**
  * The Player class represents a player in a game, storing their name, piece
@@ -17,6 +11,7 @@ import pieces.Rook;
  */
 public class Player {
     public boolean white;
+    public boolean checked;
     public String playerName;
     private final List<Move> moveSet = new ArrayList<>();
     private final List<Piece> pieces = new ArrayList<>();
@@ -33,6 +28,14 @@ public class Player {
         initializePieces();
     }
 
+    public void setWhite(boolean white) {
+        this.white = white;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
     /**
      * gets the players piece set
      * 
@@ -42,13 +45,12 @@ public class Player {
         return pieces;
     }
 
-    /**
-     * Adds move to move set
-     * 
-     * @param mv Move to add to moveSet
-     */
-    public void addMove(Move mv) {
-        moveSet.add(mv);
+    public boolean isWhite() {
+        return white;
+    }
+
+    public boolean isChecked() {
+        return checked;
     }
 
     /**
@@ -56,6 +58,15 @@ public class Player {
      */
     public Move getCurrentMove() {
         return moveSet.getLast();
+    }
+
+    /**
+     * Adds move to move set
+     * 
+     * @param mv Move to add to moveSet
+     */
+    public void addMove(Move mv) {
+        moveSet.add(mv);
     }
 
     /**
@@ -76,10 +87,10 @@ public class Player {
                 pieces.add(new Pawn(i, 1, true, true));
             pieces.add(new Rook(0, 0, true, true));
             pieces.add(new Rook(7, 0, true, true));
-            pieces.add(new Bishop(1, 0, true, true));
-            pieces.add(new Bishop(6, 0, true, true));
-            pieces.add(new Knight(2, 0, true, true));
-            pieces.add(new Knight(5, 0, true, true));
+            pieces.add(new Bishop(2, 0, true, true));
+            pieces.add(new Bishop(5, 0, true, true));
+            pieces.add(new Knight(1, 0, true, true));
+            pieces.add(new Knight(6, 0, true, true));
             pieces.add(new Queen(3, 0, true, true));
             pieces.add(new King(4, 0, true, true));
         } else {
@@ -87,10 +98,10 @@ public class Player {
                 pieces.add(new Pawn(i, 6, true, false));
             pieces.add(new Rook(0, 7, true, false));
             pieces.add(new Rook(7, 7, true, false));
-            pieces.add(new Bishop(1, 7, true, false));
-            pieces.add(new Bishop(6, 7, true, false));
-            pieces.add(new Knight(2, 7, true, false));
-            pieces.add(new Knight(5, 7, true, false));
+            pieces.add(new Bishop(2, 7, true, false));
+            pieces.add(new Bishop(5, 7, true, false));
+            pieces.add(new Knight(1, 7, true, false));
+            pieces.add(new Knight(6, 7, true, false));
             pieces.add(new Queen(3, 7, true, false));
             pieces.add(new King(4, 7, true, false));
         }

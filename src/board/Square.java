@@ -1,5 +1,7 @@
 package board;
 
+import pieces.Piece;
+
 /**
  * This class represents a square shape.
  */
@@ -26,8 +28,7 @@ public final class Square {
       // if piece already here, delete it, ie set it to dead
       if (this.piece != null) {
          this.piece.setAlive(false);
-         this.piece.setX(-1);
-         this.piece.setY(-1);
+         this.piece.setPosition(-1, -1);
       }
       this.piece = piece;
       return origin;

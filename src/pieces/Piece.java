@@ -1,4 +1,6 @@
-package board;
+package pieces;
+
+import board.Board;
 
 /**
  * The `Piece` class represents a chess piece with properties such as position,
@@ -99,24 +101,14 @@ public abstract class Piece {
     }
 
     /**
-     * The function setX(int x) sets the value of the variable x to the input
-     * parameter x.
+     * The function setPosition(int x, int y) sets the value of the variable x and y to the input
+     * parameter x and y.
      * 
-     * @param x The parameter `x` is an integer value that is being passed to the
-     *          `setX` method.
+     * @param x The parameter `x` is an integer value that is being passed to the `setPostition` method
+     * @param y The parameter `y` is an integer value that is being passed to the `setPostition` method
      */
-    public void setX(int x) {
+    public void setPosition(int x, int y) {
         this.x = x;
-    }
-
-    /**
-     * The function sets the value of the variable "y" to the provided input value.
-     * 
-     * @param y The parameter "y" represents the value that will be assigned to the
-     *          instance variable
-     *          "y" in the class.
-     */
-    public void setY(int y) {
         this.y = y;
     }
 
@@ -144,7 +136,7 @@ public abstract class Piece {
      */
     public final void setWhite(boolean white) {
         this.white = white;
-    }
+    } 
 
     /**
      * This abstract method checks if a move on the board from a starting position
@@ -176,4 +168,18 @@ public abstract class Piece {
      *         valid or not.
      */
     public abstract boolean validMove(Board board, int startX, int startY, int endX, int endY);
+
+    /**
+     * This abstract method returns the symbol of the piece
+     * @return The symbol of the piece
+     */
+    public abstract String getSymbol();
+
+    /**
+     * This function returns the type of the piece
+     * @return The type of the piece
+     */
+    public String getType() {
+        return this.getClass().getSimpleName().toLowerCase();
+    }
 }
