@@ -169,8 +169,16 @@ public abstract class Piece {
      */
     public abstract boolean validMove(Board board, int startX, int startY, int endX, int endY);
 
+    /**
+     * This abstract method returns the symbol of the piece
+     * @return The symbol of the piece
+     */
     public abstract String getSymbol();
 
+    /**
+     * This function returns the type of the piece
+     * @return The type of the piece
+     */
     public String getType() {
         return this.getClass().getSimpleName().toLowerCase();
     }

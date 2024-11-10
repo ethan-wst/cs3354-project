@@ -26,6 +26,9 @@ public class Queen extends Piece {
                         endY);
     }
 
+    /**
+     * This function returns the symbol of the queen piece.
+     */
     @Override
     public String getSymbol() {
         return "\u2655";

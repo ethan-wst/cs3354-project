@@ -24,6 +24,9 @@ public class Knight extends Piece {
         return (Math.abs(startX - endX) * Math.abs(startY - endY)) == 2;
     }
 
+    /**
+     * This function returns the symbol of the knight piece.
+     */
     @Override
     public String getSymbol() {
         return "\u2658";

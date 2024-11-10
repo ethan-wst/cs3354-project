@@ -45,6 +45,9 @@ public class Bishop extends Piece {
         return true;
     }
 
+    /**
+     * This function returns the symbol of the bishop piece.
+     */
     @Override
     public String getSymbol() {
         return "\u265D";

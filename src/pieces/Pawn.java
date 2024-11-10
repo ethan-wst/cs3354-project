@@ -48,6 +48,9 @@ public class Pawn extends Piece {
         return false;
     }
 
+    /**
+     * This function returns the symbol of the pawn piece.
+     */
     @Override
     public String getSymbol() {
         return "\u2659";

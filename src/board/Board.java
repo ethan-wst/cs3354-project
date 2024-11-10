@@ -4,17 +4,13 @@ import game.*;
 import pieces.*;
 
 /**
- * The `Board` class represents a chess board with methods to initialize pieces,
- * execute moves, check
- * for wins, and display the board state.
+ * The `Board` class represents a chess board.
  */
 public class Board {
     /** 
     * The `private final Square[][] chessBoard;` declaration creates a 2D array
-    * named `chessBoard` to
-    * represent the chess board. Each element in the array corresponds to a square
-    * on the chess board
-    * and holds a `Square` object.
+    * named `chessBoard` to represent the chess board. Each element in the array 
+    * corresponds to a square on the chess board and holds a `Square` object.
     */
     private final Square[][] chessBoard;
     private boolean win;
@@ -22,9 +18,7 @@ public class Board {
     private Player localP2;
 
     /**
-    * The `public Board()` constructor in the `Board` class is initializing a new
-    * instance of the
-    * `Board` object. Here's what it's doing:
+    * Initializes a new instance of the `Board` object.
     */
     public Board() {
         win = false;
@@ -67,36 +61,21 @@ public class Board {
     }
 
     /**
-     * The getSquare function in Java returns the Square object at the specified
-     * coordinates on a chess
-     * board.
-     * 
-     * @param x The parameter `x` represents the row number on the chess board.
-     * @param y The `y` parameter in the `getSquare` method represents the vertical
-     *          position on the
-     *          chess board. It is used to specify the row of the square you want to
-     *          retrieve.
-     * @return A `Square` object located at the specified coordinates `(x, y)` on
-     *         the `chessBoard` is
-     *         being returned.
+     * Returns the Square object at the specified coordinates.
+     * *
+     * @param x represents the column number on the chess board.
+     * @param y represents the row number on the chess board.
+     * @return A `Square` object located at the specified coordinates `(x, y)`
      */
     public Square getSquare(int x, int y) {
         return chessBoard[x][y];
     }
 
     /**
-     * This Java function executes a player's move in a chess game, checking for
-     * valid moves, piece
-     * presence, target square occupancy, and updating the game state accordingly.
+     * Executes a player's move in a chess game.
      * 
-     * @param p The parameter `p` in the `executeMove` method represents a `Player`
-     *          object. This method is
-     *          responsible for executing a move for the player in a chess game. The
-     *          method retrieves the current
-     *          move from the player, validates the move, checks if the move is
-     *          valid for the piece being moved
-     * @return The `executeMove` method returns a boolean value - `true` if the move
-     *         was successfully
+     * @param p represents a `Player` object. 
+     * @return returns a boolean value - `true` if the move was successfully
      *         executed, and `false` if there was an issue with the move execution.
      */
     public boolean executeMove(Player p) {
@@ -122,6 +101,13 @@ public class Board {
         return true;
     }
 
+    /**
+     * Validates the a Player's move in a chess game.
+     * @param p represents a 'Player' object.
+     * @param mv represents a 'Move' object and is what will be validated.
+     * @param outputError represents a boolean value. If true, the method will output an error message if the move is invalid.
+     * @return returns a boolean value - `true` if the move is valid, and `false` if the move is invalid.
+     */
     private boolean validateMove(Player p, Move mv, boolean outputError) {
         Piece piece = mv.getPiece();
 
@@ -165,10 +151,23 @@ public class Board {
         return true;
     }
 
+    /**
+     * Checks if the given coordinates are valid.
+     * @param x represents the column number on the chess board.
+     * @param y represents the row number on the chess board.
+     * @return returns a boolean value - `true` if the coordinates are valid, and `false` if the coordinates are invalid.
+     */
     private boolean isValidCord(int x, int y) {
         return x >= 0 && x < chessBoard.length && y >= 0 && y < chessBoard[0].length;
     }
 
+    /**
+     * Checks if the given player is in check.
+     * @param p1 represents a 'Player' object.
+     * @param p2 represents a 'Player' object.
+     * @param outputError represents a boolean value. If true, the method will output an error message if the player is in check.
+     * @return returns a boolean value - `true` if the player is in check, and `false` if the player is not in check.
+     */
     public boolean isCheck(Player p1, Player p2, boolean outputError) {
         Piece king = null;
         for (Piece piece : p1.getPieces()) {
@@ -194,6 +193,12 @@ public class Board {
         return false;
     }
 
+    /**
+     * Checks if the given player is in checkmate.
+     * @param playerInCheck represents a 'Player' object.
+     * @param opponent represents a 'Player' object.
+     * @return returns a boolean value - `true` if the player is in checkmate, and `false` if the player is not in checkmate.
+     */
     public boolean isCheckmate(Player playerInCheck, Player opponent) {
         if (!isCheck(playerInCheck, opponent, false)) {
             return false;
@@ -233,6 +238,11 @@ public class Board {
         return true;
     }
 
+    /**
+     * Tests a move on the board without actually executing it.
+     * @param mv represents a 'Move' object.
+     * @return returns a 'Piece' object of what would the hypothetical move captured.
+     */
     private Piece testMove(Move mv) {
         Piece movingPiece = mv.getPiece();
         Piece capturedPiece = chessBoard[mv.getEndX()][mv.getEndY()].getPiece();
@@ -245,6 +255,11 @@ public class Board {
         return capturedPiece;
     }
 
+    /**
+     * Undoes a test move on the board.
+     * @param mv represents a 'Move' object.
+     * @param capturedPiece represents a 'Piece' object.
+     */
     private void undoTestMove(Move mv, Piece capturedPiece) {
         Piece movingPiece = mv.getPiece();
     
@@ -256,12 +271,22 @@ public class Board {
         movingPiece.setPosition(mv.getStartX(), mv.getStartY());
     }
 
-    public void movePiece(int startX, int startY, int endX, int endY) {
+    /**
+     * Moves a piece on the board, whitout validating the move's logic.
+     * @param startX represents the starting x-coordinate.
+     * @param startY represents the starting y-coordinate.
+     * @param endX represents the ending x-coordinate.
+     * @param endY represents the ending y-coordinate.
+     * @return returns a 'Piece' object of what the move captured.
+     */
+    public Piece movePiece(int startX, int startY, int endX, int endY) {
         Piece piece = chessBoard[startX][startY].getPiece(); // Get the piece to move
         if (piece != null) {
             piece.setPosition(endX, endY); // Update piece's position
             chessBoard[startX][startY].releaseSquare(); // Clear the starting square
-            chessBoard[endX][endY].occupySquare(piece); // Occupy the destination square with the piece
+            Piece taken = chessBoard[endX][endY].occupySquare(piece); // Occupy the destination square with the piece
+            return taken; // Return the taken piece
         }
+        return null;
     }
 }
