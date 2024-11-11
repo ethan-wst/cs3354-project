@@ -6,8 +6,8 @@ import pieces.Piece;
  * The Move class represents a move made by a piece on a game board in Java.
  */
 public class Move {
-    private final Piece piece;
-    private final int startX, startY, endX, endY;
+    private Piece piece;
+    private int startX, startY, endX, endY;
 
     /**
      * Creates a new move object
@@ -25,6 +25,8 @@ public class Move {
         this.endX = endX;
         this.endY = endY;
     }
+
+    public Move() {}
 
     /**
      * Gets piece on the square
@@ -50,5 +52,24 @@ public class Move {
         return endY;
     }
 
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
+    public void setStartX(int startX) {
+        this.startX = startX;
+    }
+
+    public void setStartY(int startY) {
+        this.startY = startY;
+    }
+
+    public void setEndX(int endX) {
+        this.endX = endX;
+    }
+
+    public void setEndY(int endY) {
+        this.endY = endY;
+    }
 
 }

@@ -116,10 +116,14 @@ public class Board {
             return false;
         }
 
-        if (piece == null) {
+        if (piece == null || piece.isWhite() != p.white) {
             if(outputError) System.out.println("No " + (p.white ? "white" : "black") + " piece on inputted starting coordinate!");
             return false;
         }
+
+        // if(piece.isWhite() != p.white) {
+        //     if(outputError) System.out.println("No + ")
+        // }
 
         // check the move step is valid for piece
         if (!piece.validMove(this, mv.getStartX(), mv.getStartY(), mv.getEndX(), mv.getEndY())) {

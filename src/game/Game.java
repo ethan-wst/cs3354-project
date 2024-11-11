@@ -2,9 +2,6 @@ package game;
 
 import GUI.*;
 import board.*;
-import java.util.Scanner;
-import pieces.Piece;
-import util.*;
 
 /**
  * The Game class represents a two-player board game where players take turns
@@ -54,34 +51,28 @@ public class Game {
      *             used for obtaining input of primitive types like int, double,
      *             etc., and
      */
-    public void processTurn(Player p, Scanner scnr) {
-        String userInput;
-        int[] cords;
-        Piece pieceToMove;
-
+    public void processTurn(Player p) {
+        Move mv = gui.getMove();
         String color = "Black";
-        if (p.white)
-            color = "White";
+        if (p.white) color = "White";
+
         gui.updateGUI(board);
 
         do {
-            pieceToMove = null;
-            System.out.print("\n" + p.playerName + " (" + color + "): ");
-            userInput = scnr.nextLine();
-
-            cords = new UserInput(userInput).getIntInput();
-            for (Piece piece : p.getPieces()) {
-                if (piece.getX() == cords[0] && piece.getY() == cords[1]) {
-                    pieceToMove = piece;
+            System.out.print(color + "'s turn: ");
+            while (true) { 
+                mv = gui.getMove();
+                //Wait for a short period to avoid busy-waiting
+                gui.waitForMove();
+                if (mv != null && mv.getEndX() != -1 && mv.getEndY() != -1) {
                     break;
                 }
             }
-            Move mv = new Move(pieceToMove, cords[0], cords[1], cords[2], cords[3]);
             p.addMove(mv);
+            gui.resetMove();
         } while (!board.executeMove(p));
         
 
-        System.out.println("-------------------------");
     }
 
     /**
@@ -92,17 +83,16 @@ public class Game {
     public void startGame() {
         p1 = new Player("Player 1", true);
         p2 = new Player("Player 2", false);
-        Scanner scnr = new Scanner(System.in);
         enterPlayer(p1, p2);
 
         while (true) {
-            processTurn(p1, scnr);
+            processTurn(p1);
             
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
                 break;
             }
-            processTurn(p2, scnr);
+            processTurn(p2);
             if (this.board.getWin()) {
                 System.out.println("P2 win!");
                 break;
@@ -113,4 +103,8 @@ public class Game {
     public Player getOpponent(Player p) {
         return (p == p1) ? p2 : p1;
     }
+
+    // public void setTurn(Player p) {
+    //     this.board.setTurn(p);
+    // }
 }

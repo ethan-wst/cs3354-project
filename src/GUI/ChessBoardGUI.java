@@ -1,11 +1,11 @@
 package GUI;
 
 import board.*;
+import game.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import javax.swing.*;
 import pieces.*;
 
@@ -18,11 +18,7 @@ public class ChessBoardGUI {
     private JPanel boardPanel;
     private final JButton[][] squareButtons = new JButton[BOARD_SIZE][BOARD_SIZE];
     private final OptionsPanel optionsPanel;
-    private Piece selectedPiece = null;
-    private int initialX = -1, initialY = -1;
-    private Piece draggedPiece = null;
-    private int dragStartX, dragStartY;
-    private final JLabel dragLabel = new JLabel();
+    private Move mv;
 
     /**
      * Creates a new `ChessBoardGUI` object with a given board.
@@ -65,6 +61,8 @@ public class ChessBoardGUI {
             for (int x = 0; x < BOARD_SIZE; x++) {
                 JButton squareButton = new JButton();
                 squareButton.setFont(new Font("SansSerif", Font.PLAIN, 32));
+                final int X = x;
+                final int Y = y;
 
                 // Display piece if the square is occupied
                 Piece piece = board.getSquare(x, y).getPiece();
@@ -73,33 +71,25 @@ public class ChessBoardGUI {
                     squareButton.setForeground(piece.isWhite() ? Color.WHITE : Color.BLACK);
                 }
 
-                final int finalX = x;
-                final int finalY = y;
-
-                // mouse listeners for dragging and dropping pieces
                 squareButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        handleMousePressed(board, finalX, finalY, e);
+                        handleMousePressed(board, X, X, e);
                     }
-
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        handleMouseReleased(board, e);
+                        handleMouseReleased(board, X, Y, e);
+                    }
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        handleMouseClicked(board, X, Y, e);
                     }
                 });
 
-                squareButton.addMouseMotionListener(new MouseMotionAdapter() {
+                squareButton.addMouseMotionListener(new MouseAdapter() {
                     @Override
                     public void mouseDragged(MouseEvent e) {
                         handleMouseDragged(e);
-                    }
-                });
-
-                squareButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        handleSquareClick(board, finalX, finalY);
                     }
                 });
 
@@ -110,103 +100,40 @@ public class ChessBoardGUI {
             }
         }
 
-        // Set up the drag label used to show the dragged piece
-        dragLabel.setVisible(false);
-        dragLabel.setFont(new Font("SansSerif", Font.PLAIN, 32));
-        frame.getLayeredPane().add(dragLabel, JLayeredPane.DRAG_LAYER);
-
         frame.add(boardPanel);
         frame.setVisible(true);
     }
 
+    public void handleMousePressed(Board board, int x, int y, MouseEvent e) {
+        
+    }
 
-    /**
-     * Handles the mouse click event on a square to select or move a piece.
-     * @param board The board object to update the piece positions
-     * @param x The x-coordinate of the clicked square
-     * @param y The y-coordinate of the clicked square
-     */
-    private void handleSquareClick(Board board, int x, int y) {
-        if (selectedPiece == null) {
-            // Select the piece if none is currently selected
-            selectedPiece = board.getSquare(x, y).getPiece();
-            if (selectedPiece != null) {
-                initialX = x;
-                initialY = y;
-            }
+    public void handleMouseReleased(Board board, int x, int y, MouseEvent e) {
+        //System.out.println("Released at: " + x + ", " + y);
+    }
+
+    public void handleMouseDragged(MouseEvent e) {
+        //System.out.println("Dragging...");
+    }
+
+    public void handleMouseClicked(Board board, int x, int y, MouseEvent e) {
+        if (mv != null) {
+            mv.setEndX(x);
+            mv.setEndY(y);
+            char xchar = (char) (x + 65);
+            System.out.println(xchar + "" + (y+1));
         } else {
-            // Move the selected piece to the clicked square
-            Piece taken = board.movePiece(initialX, initialY, x, y);
-            if (taken instanceof King) {
-                JOptionPane.showMessageDialog(boardPanel, "Game Over! " + (taken.isWhite() ? "Black" : "White") + " wins!");
-                Window window = SwingUtilities.getWindowAncestor(boardPanel);
-                if (window != null) {
-                    window.dispose();
-                }
+            Piece piece = board.getSquare(x, y).getPiece();
+            if (piece != null) {
+                mv = new Move(piece, x, y, -1, -1);
+                char xchar = (char) (x + 65);
+                System.out.print(xchar + "" + (y+1) + " --> ");
+            } else {
+                System.out.println("No piece at the selected Square");
             }
-            selectedPiece = null;
-            updateGUI(board);
         }
-    }
-
-    /**
-     * Handles the mouse press event to start dragging a piece.
-     * @param board The board object to get the piece from
-     * @param x The x-coordinate of the clicked square
-     * @param y The y-coordinate of the clicked square
-     * @param e The mouse event object
-     */
-    private void handleMousePressed(Board board, int x, int y, MouseEvent e) {
-        draggedPiece = board.getSquare(x, y).getPiece();
-        if (draggedPiece != null) {
-            dragStartX = x;
-            dragStartY = y;
-            dragLabel.setText(draggedPiece.getSymbol());
-            dragLabel.setForeground(draggedPiece.isWhite() ? Color.WHITE : Color.BLACK);
-            dragLabel.setSize(dragLabel.getPreferredSize());
-            dragLabel.setLocation(e.getXOnScreen() - dragLabel.getWidth() / 2, e.getYOnScreen() - dragLabel.getHeight() / 2);
-            dragLabel.setVisible(true);
-        }
-    }
-
-    /**
-     * Handles the mouse drag event to update the position of the drag label.
-     * @param e The mouse event object
-     */
-    private void handleMouseDragged(MouseEvent e) {
-        if (draggedPiece != null) {
-            dragLabel.setLocation(e.getXOnScreen() - dragLabel.getHeight()/2, e.getYOnScreen() - dragLabel.getHeight());
-        }
-    }
-
-    /**
-     * Handles the mouse release event to drop a piece on a new square.
-     * @param board The board object to update the piece positions
-     * @param x The x-coordinate of the released square
-     * @param y The y-coordinate of the released square
-     * @param e The mouse event object
-     */
-    private void handleMouseReleased(Board board, MouseEvent e) {
-        if (draggedPiece != null) {
-            Point boardPosition = boardPanel.getLocationOnScreen();
-            int boardX = (e.getXOnScreen() - boardPosition.x) / squareButtons[0][0].getWidth();
-            int boardY = BOARD_SIZE - 1 - (e.getYOnScreen() - boardPosition.y) / squareButtons[0][0].getHeight();
-    
-            System.out.println("Moving piece from (" + dragStartX + ", " + dragStartY + ") to (" + boardX + ", " + boardY + ")");
-    
-            // Move the dragged piece to the new square without validating the move
-            Piece taken = board.movePiece(dragStartX, dragStartY, boardX, boardY);
-            if (taken instanceof King) {
-                JOptionPane.showMessageDialog(boardPanel, "Game Over! " + (taken.isWhite() ? "Black" : "White") + " wins!");
-                Window window = SwingUtilities.getWindowAncestor(boardPanel);
-                if (window != null) {
-                    window.dispose();
-                }
-            }
-            draggedPiece = null;
-            updateGUI(board);
-            dragLabel.setVisible(false);
-        }
+        
+        
     }
 
     /**
@@ -236,5 +163,22 @@ public class ChessBoardGUI {
         }
         boardPanel.revalidate();
         boardPanel.repaint();
+    }
+
+    public Move getMove() {
+        return mv;
+    }
+
+    public void waitForMove() {
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Thread was interrupted, Failed to complete operation");
+        }
+    }
+
+    public void resetMove() {
+        mv = null;
     }
 }
