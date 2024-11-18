@@ -134,7 +134,7 @@ public class Board {
         }
 
         // check that target square is not occupied by friendly piece
-        Piece targetPiece = chessBoard[mv.getEndY()][mv.getEndY()].getPiece();
+        Piece targetPiece = chessBoard[mv.getEndX()][mv.getEndY()].getPiece();
         if (targetPiece != null && targetPiece.isWhite() == piece.isWhite()) {
                 if(outputError) System.out.println("Targer square is occupied by a friendly piece");
                 return false;
@@ -151,7 +151,6 @@ public class Board {
                 return false;
             }
         }
-        
         return true;
     }
 
@@ -292,5 +291,45 @@ public class Board {
             return taken; // Return the taken piece
         }
         return null;
+    }
+
+    public void display() {
+        for (int y = 8; y >= 0; y--) {
+            if (y == 8)
+                System.out.print("\n   ");
+            else
+                System.out.print((y + 1) + "  ");
+            for (int x = 0; x < 8; x++) {
+                if (y == 8)
+                    System.out.print((char) (x + 65) + "  ");
+                else {
+
+                    if (chessBoard[x][y].getPiece() == null) {
+                        if ((x + y) % 2 != 0)
+                            System.out.print("   ");
+                        else
+                            System.out.print("## ");
+                    } else {
+                        String colorPre = "w";
+                        if (!chessBoard[x][y].getPiece().isWhite())
+                            colorPre = "b";
+                        if (chessBoard[x][y].getPiece() instanceof Rook)
+                            System.out.print(colorPre + "R ");
+                        else if (chessBoard[x][y].getPiece() instanceof Knight)
+                            System.out.print(colorPre + "N ");
+                        else if (chessBoard[x][y].getPiece() instanceof Bishop)
+                            System.out.print(colorPre + "B ");
+                        else if (chessBoard[x][y].getPiece() instanceof Queen)
+                            System.out.print(colorPre + "Q ");
+                        else if (chessBoard[x][y].getPiece() instanceof King)
+                            System.out.print(colorPre + "K ");
+                        else if (chessBoard[x][y].getPiece() instanceof Pawn)
+                            System.out.print(colorPre + "p ");
+                 
+                        }
+                }
+            }
+            System.out.println();
+        }
     }
 }

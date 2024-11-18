@@ -70,7 +70,9 @@ public class Game {
             }
             p.addMove(mv);
             gui.resetMove();
+            
         } while (!board.executeMove(p));
+        board.display();
         
 
     }
@@ -90,11 +92,13 @@ public class Game {
             
             if (this.board.getWin()) {
                 System.out.println("P1 win!");
+                gui.winnerPopUp(p1);
                 break;
             }
             processTurn(p2);
             if (this.board.getWin()) {
                 System.out.println("P2 win!");
+                gui.winnerPopUp(p2);
                 break;
             }
         }
