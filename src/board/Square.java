@@ -26,9 +26,8 @@ public final class Square {
    public Piece occupySquare(Piece piece) {
       Piece origin = this.piece;
       // if piece already here, delete it, ie set it to dead
-      if (this.piece != null) {
-         this.piece.setAlive(false);
-         this.piece.setPosition(-1, -1);
+      if (origin != null) {
+         origin.setAlive(false);
       }
       this.piece = piece;
       return origin;
@@ -58,5 +57,9 @@ public final class Square {
     */
    public Piece getPiece() {
       return this.piece;
+   }
+
+   public void setPiece(Piece piece) {
+      this.piece = piece;
    }
 }

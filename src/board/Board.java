@@ -82,6 +82,28 @@ public class Board {
         Move mv = p.getCurrentMove();
         Piece piece = mv.getPiece();
 
+        if (isCastle(p, mv)) {
+            int offset = (mv.getEndX() > mv.getStartX()) ? 1 : -1;
+            Piece rook = chessBoard[mv.getEndX()][mv.getEndY()].getPiece();
+            Piece king = chessBoard[mv.getStartX()][mv.getStartY()].getPiece();
+            chessBoard[mv.getStartX()][mv.getStartY()].releaseSquare();
+            chessBoard[mv.getEndX()][mv.getEndY()].releaseSquare();
+
+            //King side castle
+            if (offset == 1) {
+                chessBoard[6][mv.getEndY()].setPiece(king);
+                chessBoard[5][mv.getStartY()].setPiece(rook);
+                rook.setPosition(5, mv.getStartY());
+                king.setPosition(6, mv.getStartY());
+            } else {
+                chessBoard[2][mv.getEndY()].setPiece(king);
+                chessBoard[3][mv.getStartY()].setPiece(rook);
+                rook.setPosition(3, mv.getStartY());
+                king.setPosition(2, mv.getStartY());
+            }
+            return true;
+        }
+
         if(!validateMove(p, mv, true)) {
             p.removeCurrentMove();
             return false;
@@ -91,12 +113,20 @@ public class Board {
         piece.setPosition(mv.getEndX(), mv.getEndY());
         piece.setMoved(true);
         chessBoard[mv.getStartX()][mv.getStartY()].releaseSquare();
-        chessBoard[mv.getEndX()][mv.getEndY()].occupySquare(piece);
+        Piece taken = chessBoard[mv.getEndX()][mv.getEndY()].occupySquare(piece);
 
         Player opponent = (p == localP1) ? localP2 : localP1;
-        opponent.setChecked(isCheck(opponent, p, true));
+        opponent.removePiece(taken);
 
-        if(isCheckmate(opponent, p)) win = true;
+        opponent.setChecked(isCheck(opponent, p, false));
+        System.out.println((opponent.isWhite() ? "White" : "Black") + " king is in check: " + opponent.isChecked());
+        p.setChecked(isCheck(p, opponent, false));
+        System.out.println((p.isWhite() ? "White" : "Black") + " king is in check: " + p.isChecked());
+
+
+        if(isCheckmate(opponent, p)) {
+            win = true;
+        }
 
         return true;
     }
@@ -121,10 +151,6 @@ public class Board {
             return false;
         }
 
-        // if(piece.isWhite() != p.white) {
-        //     if(outputError) System.out.println("No + ")
-        // }
-
         // check the move step is valid for piece
         if (!piece.validMove(this, mv.getStartX(), mv.getStartY(), mv.getEndX(), mv.getEndY())) {
             // if not valid mv remove the move and return false
@@ -140,17 +166,20 @@ public class Board {
                 return false;
         }
 
-        if(p.isChecked()) {
-            Piece capturedPiece = testMove(mv);
-            boolean kingStillChecked = isCheck(p, (p == localP1) ? localP2 : localP1, false);
+        
+        Piece capturedPiece = testMove(mv);
+        boolean kingInCheck = isCheck(p, (p == localP1) ? localP2 : localP1, false);
+        undoTestMove(mv, capturedPiece);
 
-            undoTestMove(mv, capturedPiece);
-
-            if(kingStillChecked) {
-                if(outputError)System.out.println("Invalid move, king would remain in check.");
+        if(kingInCheck) {
+            if (p.checked) {
+                if(outputError) System.out.println("Invalid move, king would still be checked.");
+                return false;
+            } else {
+                if(outputError) System.out.println("Invalid move, king would be checked.");
                 return false;
             }
-        }
+        } 
         return true;
     }
 
@@ -185,7 +214,6 @@ public class Board {
             return false;
         }
 
-
         for(Piece p2Piece : p2.getPieces()) {
             if (p2Piece.validMove(this, p2Piece.getX(), p2Piece.getY(), king.getX(), king.getY())) {
                 if(outputError) System.out.println("Check on " + (p1.isWhite() ? "white" : "black") + " king.");
@@ -203,34 +231,30 @@ public class Board {
      * @return returns a boolean value - `true` if the player is in checkmate, and `false` if the player is not in checkmate.
      */
     public boolean isCheckmate(Player playerInCheck, Player opponent) {
-        if (!isCheck(playerInCheck, opponent, false)) {
+        if (!isCheck(playerInCheck, opponent, true)) {
             return false;
         }
-
+        
         for (Piece piece : playerInCheck.getPieces()) {
-            if (!piece.isAlive()) break;
+            if (!piece.isAlive()) continue;
             int startX = piece.getX();
             int startY = piece.getY();
-        
+
 
             for (int endX = 0; endX < chessBoard.length; endX++) {
                 for (int endY = 0; endY < chessBoard[0].length; endY++) {
 
                     Move testMove = new Move(piece, startX, startY, endX, endY);
-                    ///System.out.println(piece);
-                   // System.out.println(testMove.getStartX() + ", " + testMove.getStartY() + " : " + testMove.getEndX() + ", " + testMove.getEndY());
-
+                    System.out.println("Testing move: " + piece.getType() + " from " + startX + ", " + startY + " to " + endX + ", " + endY);
                     if(validateMove(playerInCheck, testMove, false)) {
+                        System.out.println("true");
                         Piece capturedPiece = testMove(testMove);
 
                         boolean stillChecked = isCheck(playerInCheck, opponent, false);
 
                         undoTestMove(testMove, capturedPiece);
 
-                        if(!stillChecked) {
-
-                            
-                            //System.out.println(testMove.getStartX() + ", " + testMove.getStartY() + " : " + testMove.getEndX() + ", " + testMove.getEndY());
+                        if(!stillChecked) {                            
                             return false;
                         }
                     }
@@ -247,13 +271,14 @@ public class Board {
      * @return returns a 'Piece' object of what would the hypothetical move captured.
      */
     private Piece testMove(Move mv) {
+        Player p = (mv.getPiece().isWhite()) ? localP2 : localP1;
         Piece movingPiece = mv.getPiece();
-        Piece capturedPiece = chessBoard[mv.getEndX()][mv.getEndY()].getPiece();
-
-        chessBoard[mv.getStartX()][mv.getStartY()].releaseSquare();
-        chessBoard[mv.getEndX()][mv.getEndY()].occupySquare(movingPiece);
-
         movingPiece.setPosition(mv.getEndX(), mv.getEndY());
+        chessBoard[mv.getStartX()][mv.getStartY()].releaseSquare();
+        Piece capturedPiece = chessBoard[mv.getEndX()][mv.getEndY()].occupySquare(movingPiece);
+        p.removePiece(capturedPiece);
+
+        
 
         return capturedPiece;
     }
@@ -264,33 +289,62 @@ public class Board {
      * @param capturedPiece represents a 'Piece' object.
      */
     private void undoTestMove(Move mv, Piece capturedPiece) {
+        Player p = (mv.getPiece().isWhite()) ? localP2 : localP1;
         Piece movingPiece = mv.getPiece();
     
         // Restore the piece's original position
         chessBoard[mv.getStartX()][mv.getStartY()].occupySquare(movingPiece);
-        chessBoard[mv.getEndX()][mv.getEndY()].occupySquare(capturedPiece);
-    
-        // Reset the piece's position
         movingPiece.setPosition(mv.getStartX(), mv.getStartY());
+        
+        // Restore the captured piece, if any
+        chessBoard[mv.getEndX()][mv.getEndY()].occupySquare(capturedPiece);
+        if (capturedPiece != null) {
+            capturedPiece.setPosition(mv.getEndX(), mv.getEndY());
+            capturedPiece.setAlive(true);
+            p.addPiece(capturedPiece);
+        }
+        
     }
 
-    /**
-     * Moves a piece on the board, whitout validating the move's logic.
-     * @param startX represents the starting x-coordinate.
-     * @param startY represents the starting y-coordinate.
-     * @param endX represents the ending x-coordinate.
-     * @param endY represents the ending y-coordinate.
-     * @return returns a 'Piece' object of what the move captured.
-     */
-    public Piece movePiece(int startX, int startY, int endX, int endY) {
-        Piece piece = chessBoard[startX][startY].getPiece(); // Get the piece to move
-        if (piece != null) {
-            piece.setPosition(endX, endY); // Update piece's position
-            chessBoard[startX][startY].releaseSquare(); // Clear the starting square
-            Piece taken = chessBoard[endX][endY].occupySquare(piece); // Occupy the destination square with the piece
-            return taken; // Return the taken piece
+    private boolean isCastle(Player p, Move mv) {
+        Piece kingPiece = mv.getPiece();
+        Piece rookPiece = chessBoard[mv.getEndX()][mv.getEndY()].getPiece();
+
+        if (kingPiece == null || rookPiece == null) return false;
+        if (!(kingPiece instanceof King) || !(rookPiece instanceof Rook)) return false;
+        if (kingPiece.isWhite() != p.isWhite() || rookPiece.isWhite() != p.isWhite()) return false;
+
+        if (kingPiece.hasMoved() || rookPiece.hasMoved()) {
+            System.out.println("Unable to castle, either the king or rook has moved!");
+            return false;
         }
-        return null;
+
+        if (p.checked) {
+            System.out.println("Unable to castle, cannot castle when in check!");
+            return false;
+        }
+
+        int offset = (mv.getEndX() > mv.getStartX()) ? 1 : -1;
+        for (int x = mv.getStartX() + offset; x != mv.getEndX(); x += offset) {
+            if (chessBoard[x][mv.getStartY()].getPiece() != null) {
+                System.out.println("Unable to castle, all squares between king and rook must be empty!");
+                return false;
+            }
+
+            kingPiece.setPosition(x - offset, mv.getStartY());
+            Move testMove = new Move(kingPiece, kingPiece.getX(), mv.getStartY(), x, mv.getStartY());
+            testMove(testMove);
+
+            if (isCheck(p, (p == localP1) ? localP2 : localP1, false)) {
+                System.out.println("Unable to castle, a square the king would move through is under attack");
+                undoTestMove(testMove, null);
+                return false;
+            }
+
+            undoTestMove(testMove, null);
+        }
+
+        return true;
     }
 
     public void display() {

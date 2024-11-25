@@ -140,9 +140,8 @@ public class ChessBoardGUI {
         endX = (e.getXOnScreen() - boardPosition.x) / squareButtons[0][0].getWidth();
         endY = BOARD_SIZE - 1 - (e.getYOnScreen() - boardPosition.y) / squareButtons[0][0].getHeight();
         dragLabel.setVisible(false);
-        if (x != endX || y != endY) {
+        if ((x != endX || y != endY) && mv != null) {
             movingPiece = null;
-            
             mv.setEndX(endX);
             mv.setEndY(endY);
             char xchar = (char) (endX + 65);
@@ -204,7 +203,7 @@ public class ChessBoardGUI {
     }
 
     public void winnerPopUp(Player p) {
-        JOptionPane.showMessageDialog(boardPanel, "Game Over! " + (p.isWhite() ? "Black" : "White") + " wins!");
+        JOptionPane.showMessageDialog(boardPanel, "Game Over! " + (p.isWhite() ? "White" : "Black") + " wins!");
                 Window window = SwingUtilities.getWindowAncestor(boardPanel);
                 if (window != null) {
                     window.dispose();

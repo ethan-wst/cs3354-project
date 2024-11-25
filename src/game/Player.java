@@ -45,6 +45,14 @@ public class Player {
         return pieces;
     }
 
+    public void removePiece(Piece piece) {
+        pieces.remove(piece);
+    }
+
+    public void addPiece(Piece piece) {
+        pieces.add(piece);
+    }
+
     public boolean isWhite() {
         return white;
     }

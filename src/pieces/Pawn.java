@@ -22,7 +22,9 @@ public class Pawn extends Piece {
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
+
         Piece piece = board.getSquare(startX, startY).getPiece();
+
         int offset = -1;
         if (piece.isWhite())
             offset = 1;

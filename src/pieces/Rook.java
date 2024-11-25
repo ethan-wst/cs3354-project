@@ -21,6 +21,7 @@ public class Rook extends Piece {
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
+
         int offset = 1;
         if (startX != endX && startY == endY) {
             if (endX < startX)
