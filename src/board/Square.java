@@ -10,56 +10,37 @@ public final class Square {
 
    /**
     * Creates a square with a specific piece
-    * 
     * @param piece Piece that occupies the square (null if none)
     */
    public Square(Piece piece) {
       this.piece = piece;
    }
 
+
    /**
-    * Used to move a piece to a square, and get old piece.
-    * 
+    * Used to move a piece to a square, and get old piece. Acts as a mutator method
     * @param piece Piece moved to square
     * @return Piece that was on square, null if none
     */
-   public Piece occupySquare(Piece piece) {
-      Piece origin = this.piece;
+   public Piece occupySquare(Piece movingPiece) {
+      Piece origin = piece;
       // if piece already here, delete it, ie set it to dead
-      if (origin != null) {
-         origin.setAlive(false);
-      }
-      this.piece = piece;
+      this.piece = movingPiece;
       return origin;
    }
 
    /**
-    * Gets the status of the square
-    * @return True if square has a piece, false otherwise
+    * Sets the piece on the square to null
     */
-   public boolean isOccupied() {
-      return piece != null;
-   }
-
-   /**
-    * Sets square to null, used for moving pieces
-    * @return Piece that was on spot
-    */
-   public Piece releaseSquare() {
-      Piece releasedPiece = this.piece;
+   public void releaseSquare() {
       this.piece = null;
-      return releasedPiece;
    }
 
    /**
-    * Gets the piece that is currently on the square
+    * Accessor method for the piece that is currently on the square
     * @return piece on square
     */
    public Piece getPiece() {
       return this.piece;
-   }
-
-   public void setPiece(Piece piece) {
-      this.piece = piece;
    }
 }

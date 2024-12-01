@@ -45,6 +45,19 @@ public class Player {
         return pieces;
     }
 
+    /**
+     * gets the players King piece
+     * @return King piece
+     */
+    public Piece getKing() {
+        for (Piece piece : pieces) {
+            if (piece instanceof King) {
+                return piece;
+            }
+        }
+        return null;
+    }
+
     public void removePiece(Piece piece) {
         pieces.remove(piece);
     }
