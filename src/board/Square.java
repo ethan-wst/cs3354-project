@@ -29,6 +29,7 @@ public final class Square {
       return origin;
    }
 
+
    /**
     * Sets the piece on the square to null
     */
@@ -36,6 +37,7 @@ public final class Square {
       this.piece = null;
    }
 
+   
    /**
     * Accessor method for the piece that is currently on the square
     * @return piece on square

@@ -4,9 +4,7 @@ import GUI.*;
 import board.*;
 
 /**
- * The Game class represents a two-player board game where players take turns
- * making moves until one
- * player wins.
+ * The Game class represents a game of chess in Java.
  */
 public class Game {
     private final Board board;
@@ -15,51 +13,49 @@ public class Game {
     private Player p2;
 
     /**
+     * Main method to start the game
+     * 
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.startGame();
+    }
+
+    /**
      * Creates a new game object, which creates a new board object
      */
     public Game() {
         board = new Board();
     }
 
+
     /**
      * Assigns player varaible and calls for the board to be initialized
      * 
-     * @param p1 Player one
-     * @param p2 Player two
+     * @param p1 Represents a 'Player' object
+     * @param p2 Represents a 'Player' object
      */
     private void enterPlayer(Player p1, Player p2) {
         this.p1 = p1;
         this.p2 = p2;
         board.initialize(p1, p2);
-        gui = new ChessBoardGUI(board);
+        System.out.print("board initialized");
+        gui = new ChessBoardGUI(board, p1, p2);
     }
 
     /**
-     * The `processTurn` function in Java processes a player's turn by taking user
-     * input, identifying
-     * the piece to move, creating a move object, and executing the move on the
-     * board until a valid
-     * move is made.
+     * Processes a player's turn by taking input from the user and executing the move, if valid, on the board.
      * 
-     * @param p    Player object representing the current player taking the turn. It
-     *             contains information
-     *             about the player's name, color, and pieces on the board.
-     * @param scnr The `scnr` parameter in the `processTurn` method is of type
-     *             `Scanner`. It is used to
-     *             read input from the user during the player's turn in the game.
-     *             The `Scanner` class in Java is
-     *             used for obtaining input of primitive types like int, double,
-     *             etc., and
+     * @param p Represents the 'Player' object who's turn it is
      */
     public void processTurn(Player p) {
-        Move mv = gui.getMove();
-        String color = "Black";
-        if (p.white) color = "White";
-
+        Move mv = null;
+        String color = (p.white ? "White" : "Black");
         gui.updateGUI(board);
-
+        
         do {
-            System.out.print(color + "'s turn: ");
+            System.out.print(p.getName() + "'s turn (" + color+ "): ");
             while (true) { 
                 mv = gui.getMove();
                 //Wait for a short period to avoid busy-waiting
@@ -70,45 +66,34 @@ public class Game {
             }
             p.addMove(mv);
             gui.resetMove();
-            
         } while (!board.executeMove(p));
-        board.display();
-        
 
+        System.out.println();
+        gui.updateGUI(board);
     }
 
+
     /**
-     * The `startGame` function initializes two players, takes turns for each player
-     * until a player
-     * wins, and prints the winner's name.
+     * Prompts for player names and starts the game loop
      */
     public void startGame() {
-        p1 = new Player("Player 1", true);
-        p2 = new Player("Player 2", false);
+        InputPlayers input = new InputPlayers();
+        p1 = new Player(input.getWhitePlayerName(), true);
+        p2 = new Player(input.getBlackPlayerName(), false);
         enterPlayer(p1, p2);
 
         while (true) {
             processTurn(p1);
             
             if (this.board.getWin()) {
-                System.out.println("P1 win!");
                 gui.winnerPopUp(p1);
                 break;
             }
             processTurn(p2);
             if (this.board.getWin()) {
-                System.out.println("P2 win!");
                 gui.winnerPopUp(p2);
                 break;
             }
         }
     }
-
-    public Player getOpponent(Player p) {
-        return (p == p1) ? p2 : p1;
-    }
-
-    // public void setTurn(Player p) {
-    //     this.board.setTurn(p);
-    // }
 }

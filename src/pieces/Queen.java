@@ -3,8 +3,7 @@ package pieces;
 import board.*;
 
 /**
- * The Queen class represents a chess piece that can move like a Rook or a
- * Bishop on a chess board.
+ * The Queen class represents a queen chess piece
  */
 public class Queen extends Piece {
     /**
@@ -15,9 +14,7 @@ public class Queen extends Piece {
     }
 
     /**
-     * The function determines if a move is valid for a piece by checking if it is a
-     * valid move for a
-     * Rook or a Bishop on a board.
+     * The function checks if a move on a chess board is valid for a queen
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {

@@ -22,8 +22,7 @@ public class Board {
 
     
     /**
-     * Initializes white's and black's pieces onto the board object, as well as null
-     * squares
+     * Initializes white's and black's pieces onto the board object, as well as null squares
      * 
      * @param p1 Player one
      * @param p2 Player two
@@ -59,7 +58,7 @@ public class Board {
 
     /**
      * Accessor method for the Square object at a specified coordinates.
-     * *
+     * 
      * @param x represents the column number on the chess board.
      * @param y represents the row number on the chess board.
      * @return A `Square` object located at the specified coordinates `(x, y)`
@@ -111,6 +110,7 @@ public class Board {
 
     /**
      * Validates the a Player's move in a chess game.
+     * 
      * @param p represents tje 'Player' object that is making the move.
      * @param mv represents a 'Move' object and is what will be validated.
      * @param outputError represents a boolean value. If true, the method will output an error message if the move is invalid.
@@ -167,6 +167,7 @@ public class Board {
 
     /**
      * Checks if the given player is in check.
+     * 
      * @param p1 represents a 'Player' object.
      * @param p2 represents a 'Player' object.
      * @param outputError represents a boolean value. If true, the method will output an error message if the player is in check.
@@ -193,6 +194,7 @@ public class Board {
 
     /**
      * Checks if the given player is in checkmate.
+     * 
      * @param p1 represents a 'Player' object.
      * @param p2 represents a 'Player' object.
      * @param outputError represents a boolean value. If true, the method will output an error message if the player is in checkmate.
@@ -230,6 +232,7 @@ public class Board {
     
     /**
      * Checks if the move is a valid castle move.
+     * 
      * @param p represents a 'Player' object that is making the move.
      * @param mv represents a 'Move' object that is being checked.
      * @param outputError represents a boolean value. If true, the method will output an error message if the move is invalid.
@@ -284,6 +287,7 @@ public class Board {
 
     /**
      * Executes a castle move on the board.
+     * 
      * @param mv represents a 'Move' object, that is a castle move.
      */
     public void Castle(Move mv) {
@@ -312,6 +316,7 @@ public class Board {
 
     /**
      * Tests a move on the board
+     * 
      * @param mv represents a 'Move' object.
      * @return returns a 'Piece' object of what would the hypothetical move captured.
      */
@@ -330,6 +335,7 @@ public class Board {
 
     /**
      * Undoes a test move on the board.
+     * 
      * @param mv represents a 'Move' object.
      * @param capturedPiece represents a 'Piece' object.
      */
@@ -352,6 +358,7 @@ public class Board {
     
     /**
      * Checks if the given coordinates are valid.
+     * 
      * @param x represents the column number on the chess board.
      * @param y represents the row number on the chess board.
      * @return returns a boolean value - `true` if the coordinates are valid, and `false` if the coordinates are invalid.

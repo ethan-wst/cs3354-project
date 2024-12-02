@@ -3,12 +3,9 @@ package pieces;
 import board.*;
 
 /**
- * The King class represents a chess piece with functionality to track if it has
- * moved and validate its
- * movement on a chess board.
+ * The King class represents a king chess piece
  */
 public class King extends Piece {
-
     /**
      * {@inheritDoc}
      */
@@ -18,14 +15,13 @@ public class King extends Piece {
 
 
     /**
-     * The function checks if a move from a starting position to an ending position
-     * on a board is valid
-     * by ensuring that the difference in x or y coordinates is exactly 1.
+     * The function checks if a move on a chess board is valid for a king
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
         return Math.abs(startX - endX) <= 1 && Math.abs(startY - endY) <= 1 && (startX != endX || startY != endY);
     }
+
 
     /**
      * This function returns the symbol of the king piece.
