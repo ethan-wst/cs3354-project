@@ -3,8 +3,7 @@ package pieces;
 import board.*;
 
 /**
- * The Rook class represents a rook chess piece with methods to validate its
- * movement on a board.
+ * The Rook class represents a rook chess piece
  */
 public class Rook extends Piece {
     /**
@@ -15,12 +14,11 @@ public class Rook extends Piece {
     }
 
     /**
-     * This Java function checks if a move on a board is valid for a piece that can
-     * move horizontally
-     * or vertically without jumping over other pieces.
+     * The function checks if a move on a chess board is valid for a rook
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
+
         int offset = 1;
         if (startX != endX && startY == endY) {
             if (endX < startX)

@@ -3,9 +3,7 @@ package pieces;
 import board.*;
 
 /**
- * The `Pawn` class in Java represents a pawn chess piece with methods to
- * validate its moves on a
- * board.
+ * The Pawn class represents a pawn chess piece
  */
 public class Pawn extends Piece {
     /**
@@ -16,19 +14,19 @@ public class Pawn extends Piece {
     }
 
     /**
-     * The function `validMove` in Java checks if a move is valid for a pawn on a
-     * chess board,
-     * considering en passant, capturing diagonally, and regular moves.
+     * The function checks if a move on a chess board is valid for a pawn
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
+
         Piece piece = board.getSquare(startX, startY).getPiece();
+
         int offset = -1;
         if (piece.isWhite())
             offset = 1;
 
         // en passant (can move two squares if not previosly moved)
-        if (!piece.hasMoved() && endY - startY == 2 * offset && endX - endX == 0) {
+        if (!piece.hasMoved() && endY - startY == 2 * offset && startX - endX == 0) {
             if (board.getSquare(endX, endY).getPiece() == null
                     && board.getSquare(endX, endY - offset).getPiece() == null) {
                 return true;

@@ -3,9 +3,7 @@ package pieces;
 import board.Board;
 
 /**
- * The `Piece` class represents a chess piece with properties such as position,
- * color, and movement
- * validity check.
+ * The Piece class represents a chess piece 
  */
 public abstract class Piece {
     private int x;
@@ -16,7 +14,7 @@ public abstract class Piece {
     private boolean hasMoved;
 
     /**
-     * Creates a piece object
+     * The constructor for the Piece class, initializes the x, y, alive, and white
      * 
      * @param x     X cord of piece on the board
      * @param y     Y cord of piece on the board
@@ -32,151 +30,116 @@ public abstract class Piece {
         this.hasMoved = false;
     }
 
+
     /**
-     * The getX() function in Java returns the value of the variable x.
+     * Accessor method for the 'x' attribute of an object.
      * 
-     * @return The method `getX()` is returning the value of the variable `x`
-     *         belonging to the current
-     *         object.
+     * @return The 'x' cord of the piece on the board
      */
     public int getX() {
         return this.x;
     }
 
+
     /**
-     * This Java function returns the value of the 'y' attribute of an object.
+     * Accessor method for the 'y' attribute of an object.
      * 
-     * @return The method `getY()` is returning the value of the `y` instance
-     *         variable of the current
-     *         object.
+     * @return The 'y' cord of the piece on the board
      */
     public int getY() {
         return this.y;
     }
 
     /**
-     * The function isAlive() returns a boolean value indicating whether the object
-     * is alive or not.
+     * Accessor method for the 'alive' attribute of an object.
      * 
-     * @return The method isAlive() is returning the value of the boolean variable
-     *         "alive" in the
-     *         current object.
+     * @return The 'alive' attribute of the object
      */
     public boolean isAlive() {
         return this.alive;
     }
 
     /**
-     * The `isWhite` function in Java returns the value of the `white` attribute.
+     * Accessor method for the 'white' attribute of an object.
      * 
-     * @return The method `isWhite()` returns the value of the `white` instance
-     *         variable of the object.
+     * @return The 'white' attribute of the object
      */
     public boolean isWhite() {
         return this.white;
     }
 
     /**
-     * The function `setMoved` in Java sets the `hasMoved` boolean variable to the
-     * value passed as a
-     * parameter.
+     * Mutator method for the 'hasMoved' attribute of an object.
      * 
-     * @param moved The `moved` parameter is a boolean value that indicates whether
-     *              an object has been
-     *              moved or not.
+     * @param moved True if the piece has moved, false if not
      */
     public void setMoved(boolean moved) {
         this.hasMoved = moved;
     }
 
     /**
-     * The function `hasMoved()` returns a boolean value indicating whether an
-     * object has moved.
+     * Accessor method for the 'hasMoved' attribute of an object.
      * 
-     * @return The method `hasMoved()` returns the value of the `hasMoved` instance
-     *         variable.
+     * @return The 'hasMoved' attribute of the object
      */
     public boolean hasMoved() {
         return this.hasMoved;
     }
 
     /**
-     * The function setPosition(int x, int y) sets the value of the variable x and y to the input
-     * parameter x and y.
+     * Mutator method for the 'x' and 'y' attributes of an object.
      * 
-     * @param x The parameter `x` is an integer value that is being passed to the `setPostition` method
-     * @param y The parameter `y` is an integer value that is being passed to the `setPostition` method
+     * @param x The 'x' cord of the piece on the board
+     * @param y The 'y' cord of the piece on the board
      */
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+
     /**
-     * This function sets the "alive" status of an object in Java.
+     * Mutator method for the 'alive' attribute of an object.
      * 
-     * @param alive The `alive` parameter is a boolean variable that indicates
-     *              whether an object is
-     *              alive or not. It is used to set the state of an object to either
-     *              alive (true) or not alive
-     *              (false).
+     * @param alive True if the piece is alive, false if not
      */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
+
     /**
-     * The function `setWhite` sets the value of a boolean variable `white`.
+     * Mutator method for the 'white' attribute of an object.
      * 
-     * @param white The `white` parameter in the `setWhite` method is a boolean
-     *              value that indicates
-     *              whether an object is white or not. When the `setWhite` method is
-     *              called with a `true` value for
-     *              the `white` parameter, it sets the object to be white.
+     * @param white True if the piece is white, false if black
      */
     public final void setWhite(boolean white) {
         this.white = white;
     } 
 
+
     /**
-     * This abstract method checks if a move on the board from a starting position
-     * to an ending position
-     * is valid.
+     * This abstract method checks if a move on a chess board is valid for a piece
      * 
-     * @param board  The `board` parameter represents the game board on which the
-     *               move is being made. It
-     *               likely contains information about the current state of the
-     *               game, such as the positions of pieces.
-     * @param startX The `startX` parameter represents the x-coordinate of the
-     *               starting position of a
-     *               piece on the board.
-     * @param startY The `startY` parameter represents the starting y-coordinate of
-     *               the piece on the
-     *               board where the move is originating from.
-     * @param endX   The `endX` parameter represents the x-coordinate of the ending
-     *               position on the board
-     *               where the move is intended to go.
-     * @param endY   The `endY` parameter represents the y-coordinate of the ending
-     *               position on the board
-     *               where the move is intended to go. This parameter is used in the
-     *               `validMove` method to determine
-     *               if a move from the starting position `(startX, startY)` to the
-     *               ending position `(endX, end
-     * @return A boolean value is being returned, indicating whether the move from
-     *         the starting position
-     *         (startX, startY) to the ending position (endX, endY) on the board is
-     *         valid or not.
+     * @param board  Represents the chess board
+     * @param startX The starting 'x' cord of the piece on the board
+     * @param startY The starting 'y' cord of the piece on the board
+     * @param endX   The ending 'x' cord of the piece on the board
+     * @param endY   The ending 'y' cord of the piece on the board
+     * @return True if the move is valid, false if not
      */
     public abstract boolean validMove(Board board, int startX, int startY, int endX, int endY);
 
     /**
      * This abstract method returns the symbol of the piece
+     * 
      * @return The symbol of the piece
      */
     public abstract String getSymbol();
 
     /**
      * This function returns the type of the piece
+     * 
      * @return The type of the piece
      */
     public String getType() {

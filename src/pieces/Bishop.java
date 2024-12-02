@@ -3,9 +3,7 @@ package pieces;
 import board.*;
 
 /**
- * The Bishop class represents a bishop chess piece with a validMove method that
- * checks if the move is
- * diagonal and free of obstructions on the board.
+ * The Bishop class represents a bishop chess piece
  */
 public class Bishop extends Piece {
     /**
@@ -15,10 +13,9 @@ public class Bishop extends Piece {
         super(x, y, alive, white);
     }
 
+
     /**
-     * The function checks if a move on a chess board is valid for a bishop piece by
-     * ensuring it is
-     * diagonal and not obstructed by other pieces.
+     * The function checks if a move on a chess board is valid for a bishop
      */
     @Override
     public boolean validMove(Board board, int startX, int startY, int endX, int endY) {
@@ -44,6 +41,7 @@ public class Bishop extends Piece {
         }
         return true;
     }
+
 
     /**
      * This function returns the symbol of the bishop piece.

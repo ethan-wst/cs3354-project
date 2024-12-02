@@ -1,47 +1,27 @@
 package util;
 
 /**
- * The `UserInput` class in Java parses and processes user input for a chess
- * game, converting
- * characters to integers based on specific rules.
+ * The UserInput class processes user input for the chess game.
  */
 public class UserInput {
-    /**
-    * The lines `private final char[] parsedUserInput = new char[4];` and `private
-    * final int[]
-    * intUserInput = new int[4];` are declaring two private instance variables in
-    * the `UserInput` class in Java.
-    */ 
     private final char[] parsedUserInput = new char[4];
     private final int[] intUserInput = new int[4];
 
-    /** The `UserInput` constructor in Java takes a `String` input from the user,
-    * then it calls the
-    * `parseInput` method to remove any spaces and store the characters in the
-    * `parsedUserInput`
-    * array. After that, it calls the `processInput` method to convert the
-    * characters in the
-    * `parsedUserInput` array to integers based on specific rules and store them in
-    * the `intUserInput`
-    * array. This way, the constructor processes the user input and prepares it for
-    * further use in the chess game.
-    */
+    /**
+     * The constructor for the UserInput class, initializes the parsedUserInput and
+     * intUserInput arrays.
+     * 
+     * @param userInput A string that contains the input provided by the user.
+     */
     public UserInput(String userInput) {
         parseInput(userInput);
         processInput(parsedUserInput);
     }
 
     /**
-     * The function `parseInput` removes spaces from a given user input string and
-     * stores the non-space
-     * characters in an array.
+     * The function `parseInput` processes the user input to remove spaces and store values in an array.
      * 
-     * @param userInput The `userInput` parameter is a String that contains the
-     *                  input provided by the
-     *                  user. The `parseInput` method is designed to iterate through
-     *                  each character in the `userInput`
-     *                  String and store non-space characters in an array called
-     *                  `parsedUserInput`.
+     * @param userInput The `userInput` parameter is a string that contains the input provided by the user.
      */
     public final void parseInput(String userInput) {
         for (int i = 0, j = 0; i < userInput.length(); i++) {
@@ -58,15 +38,9 @@ public class UserInput {
     }
 
     /**
-     * The function processes an array of characters representing chess moves,
-     * converting them into
-     * corresponding integer values for further handling.
+     * The function `processInput` processes the user input to convert it into an integer array `intUserInput` based on certain conditions.
      * 
-     * @param parsedInput The `parsedInput` parameter is an array of characters
-     *                    representing user
-     *                    input. The method `processInput` processes this input to
-     *                    convert it into an integer array
-     *                    `intUserInput` based on certain conditions.
+     * @param parsedInput The `parsedInput` parameter is an array of characters that contains the input provided by the user.
      */
     public final void processInput(char[] parsedInput) {
         // Move is a castling move, implement handling later
@@ -95,7 +69,7 @@ public class UserInput {
     }
 
     /**
-     * The function `getIntInput` returns an array of integers as user input.
+     * Accessor method for the intUserInput attribute of an object.
      * 
      * @return An array of integers named intUserInput is being returned.
      */

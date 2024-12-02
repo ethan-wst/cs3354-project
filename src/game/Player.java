@@ -5,16 +5,15 @@ import java.util.List;
 import pieces.*;
 
 /**
- * The Player class represents a player in a game, storing their name, piece
- * set, move history, and
- * initialization of pieces based on color.
+ * The Player class represents a player in a game of chess.
  */
 public class Player {
     public boolean white;
     public boolean checked;
-    public String playerName;
+    private final String playerName;
     private final List<Move> moveSet = new ArrayList<>();
     private final List<Piece> pieces = new ArrayList<>();
+
 
     /**
      * Creates new Player object
@@ -28,16 +27,29 @@ public class Player {
         initializePieces();
     }
 
+
+    /**
+     * Mutator method for the white boolean
+     * 
+     * @param white True if white, False if black
+     */
     public void setWhite(boolean white) {
         this.white = white;
     }
 
+
+    /**
+     * Mutator method for the checked boolean
+     * 
+     * @param checked True if checked, False if not
+     */
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
 
+
     /**
-     * gets the players piece set
+     * Accessor method for the players piece set
      * 
      * @return pieces list
      */
@@ -45,41 +57,112 @@ public class Player {
         return pieces;
     }
 
+
+    /**
+     * Accessor method for the player's name
+     * 
+     * @return the player's name
+     */
+    public String getName() {
+        return playerName;
+    }
+
+
+    /**
+     * Gets the players King piece
+     * 
+     * @return King piece
+     */
+    public Piece getKing() {
+        for (Piece piece : pieces) {
+            if (piece instanceof King) {
+                return piece;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Removes piece from piece set
+     * 
+     * @param piece Piece to remove
+     */
+    public void removePiece(Piece piece) {
+        pieces.remove(piece);
+    }
+
+
+    /**
+     * Adds piece to piece set
+     * 
+     * @param piece Piece to add
+     */
+    public void addPiece(Piece piece) {
+        pieces.add(piece);
+    }
+
+
+    /**
+     * Accessor method for the white boolean
+     * 
+     * @return True if white, False if black
+     */
     public boolean isWhite() {
         return white;
     }
 
+
+    /**
+     * Accessor method for the checked boolean
+     * 
+     * @return True if checked, False if not
+     */
     public boolean isChecked() {
         return checked;
     }
 
+
     /**
-     * @return last move on moveSet
+     * Accessor method for the move set
+     * 
+     * @return moveSet list
+     */
+    public List<Move> getMoveSet() {
+        return moveSet;
+    }
+
+
+    /**
+     * Accessor method for the current move
+     * 
+     * @return last move in moveSet
      */
     public Move getCurrentMove() {
         return moveSet.getLast();
     }
 
+
     /**
      * Adds move to move set
      * 
-     * @param mv Move to add to moveSet
+     * @param mv Move to add
      */
     public void addMove(Move mv) {
         moveSet.add(mv);
     }
 
+
     /**
-     * Removes last piece added to piece set
+     * Removes last move from move set
      */
     public void removeCurrentMove() {
         moveSet.removeLast();
     }
 
+
     /**
-     * The `initializePieces` function sets up the initial configuration of chess
-     * pieces on the board
-     * for either the white or black player.
+     * Initializes the pieces for the player based on color
      */
     public final void initializePieces() {
         if (white) {
