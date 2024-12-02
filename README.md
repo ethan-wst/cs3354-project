@@ -19,10 +19,10 @@ Object-Oriented Programming course. It combines backend logic with a graphical i
 
 ## Preview
 ### GUI Preview
-![Chess Game GUI Preview](/home/ethanwst/chessProject/Team-4/lib/gui_preview_image.png)
+![Chess Game GUI Preview](/lib/gui_preview_image.png)
 
 ### Class Diagram
-![Class Diagram](path/to/your/class_diagram_image.png)
+![Class Diagram](lib/class_diagram_image.png)
 
 ---
 
@@ -49,14 +49,14 @@ Follow these instructions to compile and run the project:
 ---
 
 ## Features Checklist
-- [ ] GUI with an 8x8 Chessboard
-- [ ] Piece Movement with Mouse Interaction
-- [ ] Move Validation Based on Chess Rules
-- [ ] Capture Mechanism
-- [ ] Check and Checkmate Detection
-- [ ] Turn-Based Play for Two Players
-- [ ] Game End Notification on Checkmate
-- [ ] Settings to Change GUI Appearance
+- [x] GUI with an 8x8 Chessboard
+- [x] Piece Movement with Mouse Interaction
+- [x] Move Validation Based on Chess Rules
+- [x] Capture Mechanism
+- [x] Check and Checkmate Detection
+- [x] Turn-Based Play for Two Players
+- [x] Game End Notification on Checkmate
+- [x] Settings to Change GUI Appearance
 - [ ] Menu Bar with Game Control (New/Save/Load)
 - [ ] Game History and Undo Controls
 - [ ] AI Opponent with Levels of Skill
