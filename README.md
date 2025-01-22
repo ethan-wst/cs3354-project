@@ -2,7 +2,6 @@
 # GUI Chess Game Project
 
 ## Team Information
-- **Team Name**: Team - 4
 - **Team Members**: 
   - Ethan West
   - Miles Belknap
